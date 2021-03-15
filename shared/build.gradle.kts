@@ -15,7 +15,11 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("dev.icerock.moko:mvvm-core:0.9.1")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -61,3 +65,6 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
+dependencies {
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+}
