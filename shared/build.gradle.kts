@@ -17,7 +17,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("dev.icerock.moko:mvvm-core:0.9.1")
+                implementation("dev.icerock.moko:mvvm-livedata:0.9.1")
             }
         }
         val commonTest by getting {
@@ -29,6 +29,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.google.android.material:material:1.2.1")
+                implementation("com.firebaseui:firebase-ui-auth:6.4.0")
             }
         }
         val androidTest by getting {
