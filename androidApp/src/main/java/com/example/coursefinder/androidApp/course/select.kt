@@ -1,6 +1,7 @@
 package com.example.coursefinder.androidApp.course
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Button
@@ -8,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.coursefinder.androidApp.SearchViewActivity
 import com.example.coursefinder.shared.course.SelectModel
 import com.example.coursefinder.shared.course.SelectDelegate
 import com.example.coursefinder.shared.course.SelectViewModel
@@ -30,7 +32,7 @@ class SelectActivity : SelectDelegate, AppCompatActivity() {
     }
 
     override fun searchByCourseCodeButtonAction() {
-        TODO("Add search by course code intent")
+        startActivity(Intent(this, SearchViewActivity::class.java))
     }
 
     override fun searchByCourseNameButtonAction() {

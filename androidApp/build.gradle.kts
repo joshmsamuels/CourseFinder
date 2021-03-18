@@ -10,6 +10,12 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.2")
 
     implementation("dev.icerock.moko:mvvm-core:0.9.1")
+
+    // Card View
+    implementation ("androidx.cardview:cardview:1.0.0")
+
+    // Recyclerview
+    implementation ("androidx.recyclerview:recyclerview:1.0.0")
 }
 
 android {
