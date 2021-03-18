@@ -12,6 +12,7 @@ data class SelectModel(
 )
 
 interface SelectDelegate {
+
     fun searchByCourseCodeButtonAction()
     fun searchByCourseNameButtonAction()
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "380167116169",
+    "project_id": "coursefinder-mobile",
+    "storage_bucket": "coursefinder-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380167116169:android:97c1f75013ada6d2453d58",
+        "android_client_info": {
+          "package_name": "com.example.coursefinder.androidApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "380167116169-0ctc3d83c8gn4cpk2slrkd0pr2j16inu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.coursefinder.androidApp",
+            "certificate_hash": "79dc04ffa712ae3072d98c719f3fe96a75005b8d"
+          }
+        },
+        {
+          "client_id": "380167116169-90tfnj6rfs231tt1rmsdtecngvksrt6g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCavHuna0Gq3AWByKcCutxW43X_93Txy6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "380167116169-90tfnj6rfs231tt1rmsdtecngvksrt6g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
