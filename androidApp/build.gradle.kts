@@ -8,14 +8,11 @@ dependencies {
     implementation("com.google.android.material:material:1.2.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.2")
+    implementation("androidx.activity:activity-ktx:1.2.1")
+    implementation("androidx.fragment:fragment-ktx:1.3.1")
 
-    implementation("dev.icerock.moko:mvvm-core:0.9.1")
-
-    // Card View
-    implementation ("androidx.cardview:cardview:1.0.0")
-
-    // Recyclerview
-    implementation ("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("dev.icerock.moko:mvvm-livedata:0.9.1")
+    implementation("com.firebaseui:firebase-ui-auth:6.4.0")
 }
 
 android {
@@ -33,3 +30,5 @@ android {
         }
     }
 }
+
+apply(mapOf("plugin" to "com.google.gms.google-services"))
