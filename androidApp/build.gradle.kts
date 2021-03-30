@@ -5,14 +5,16 @@ plugins {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
-    implementation("androidx.activity:activity-ktx:1.2.1")
-    implementation("androidx.fragment:fragment-ktx:1.3.1")
-
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.activity:activity-ktx:1.2.2")
+    implementation("androidx.fragment:fragment-ktx:1.3.2")
     implementation("dev.icerock.moko:mvvm-livedata:0.9.1")
     implementation("com.firebaseui:firebase-ui-auth:6.4.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.4")
+    implementation("dev.icerock.moko:mvvm-core:0.9.1")
+    implementation("androidx.navigation:navigation-fragment:2.3.4")
 }
 
 android {
@@ -29,6 +31,13 @@ android {
             isMinifyEnabled = false
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 apply(mapOf("plugin" to "com.google.gms.google-services"))
+apply(mapOf("plugin" to "androidx.navigation.safeargs"))
