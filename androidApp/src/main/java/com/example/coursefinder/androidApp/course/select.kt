@@ -1,129 +1,58 @@
 package com.example.coursefinder.androidApp.course
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
-import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import com.example.coursefinder.androidApp.MainActivity
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.Space
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.example.coursefinder.androidApp.R
+import com.example.coursefinder.androidApp.databinding.SelectSearchTypeBinding
 import com.example.coursefinder.shared.course.SelectDelegate
 import com.example.coursefinder.shared.course.SelectModel
 import com.example.coursefinder.shared.course.SelectViewModel
-import com.example.coursefinder.shared.user.USER_ANON_FIELD
-import com.example.coursefinder.shared.user.USER_EMAIL_FIELD
-import com.example.coursefinder.shared.user.UserModel
-import com.firebase.ui.auth.AuthUI
 
-class SelectActivity : SelectDelegate, AppCompatActivity() {
-    private lateinit var view: SelectView
+class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegate {
     private var viewModel = SelectViewModel(this)
-    private lateinit var user: UserModel
 
-    private val launchMainActivity = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
-            Log.d(
-                    "select activity",
-                    "launch main activity result code: ${result.resultCode} --- result: $result"
-            )
+    private var selectSearchTypeBinding: SelectSearchTypeBinding? = null
 
-            TODO("result was not ok")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        selectSearchTypeBinding = SelectSearchTypeBinding.bind(view)
+        selectSearchTypeBinding?.let { selectSearchTypeBinding ->
+            selectSearchTypeBinding.setContent(viewModel.generateModel())
+            selectSearchTypeBinding.primaryButton.setOnClickListener {
+                searchByCourseCodeButtonAction()
+            }
+            selectSearchTypeBinding.secondaryButton.setOnClickListener {
+                searchByCourseNameButtonAction()
+            }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        view = SelectView(this)
-        setContentView(view)
-
-        user = UserModel(
-            intent.getStringExtra(USER_EMAIL_FIELD),
-            intent.getBooleanExtra(USER_ANON_FIELD, true)
-        )
-
-        if (user.isAnonymous) {
-            Toast.makeText(this, "Signed in anonymously", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Signed in with ${user.email}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        view.apply(viewModel.generateModel())
-
-        view.tmpSignOut.setOnClickListener{ signOut() }
-
+    override fun onDestroyView() {
+        selectSearchTypeBinding = null
+        super.onDestroyView()
     }
 
     override fun searchByCourseCodeButtonAction() {
-        TODO("Add search by course code intent")
+        TODO("Not yet implemented")
     }
 
     override fun searchByCourseNameButtonAction() {
-        TODO("Add search by course name intent")
+        TODO("Not yet implemented")
     }
 
-    fun signOut() {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener {
-                    finish()
-                    launchMainActivity.launch(Intent(this, MainActivity::class.java))
-                }
-    }
-}
+    private fun SelectSearchTypeBinding.setContent(model: SelectModel) {
+        this.primaryTextView.text = model.selectSearchMethodText
 
-class SelectView(context: Context) : LinearLayout(context) {
-    private val primaryTextView: TextView
-    private val primaryButton: Button
-    private val secondaryButton: Button
-    private val primarySpacer: Space
-    private val secondarySpacer: Space
-    val tmpSignOut = Button(context)
-    init {
-        orientation = VERTICAL
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        gravity = Gravity.CENTER
-
-        primaryTextView = TextView(context)
-        primaryButton = Button(context)
-        secondaryButton = Button(context)
-        primarySpacer = Space(context)
-        secondarySpacer = Space(context)
-
-        primaryTextView.gravity = Gravity.CENTER
-        primarySpacer.minimumHeight = 50
-        secondarySpacer.minimumHeight = 50
-
-        addView(primaryTextView)
-        addView(primarySpacer)
-        addView(primaryButton)
-        addView(secondarySpacer)
-        addView(secondaryButton)
-
-        // TODO: Delete once there is an app bar
-
-        tmpSignOut.text = "sign out"
-        tmpSignOut.gravity = Gravity.CENTER
-        addView(tmpSignOut)
+        this.primaryButton.text = model.searchByCourseCodeButtonText
+        this.secondaryButton.text = model.searchByCourseNameButtonText
     }
 
-    fun apply(model: SelectModel) {
-        primaryTextView.text = model.selectSearchMethodText
-        primaryButton.text = model.searchByCourseCodeButtonText
-        secondaryButton.text = model.searchByCourseNameButtonText
-
-        primaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
-        secondaryButton.setOnClickListener { model.searchByCourseNameButtonAction() }
-
-        invalidate()
-    }
 }

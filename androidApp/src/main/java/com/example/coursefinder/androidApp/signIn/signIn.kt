@@ -5,12 +5,11 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.coursefinder.shared.signIn.getAuthProviders
-import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 
 class SignInActivity : AppCompatActivity()  {
     private val firebaseAuthLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
+            ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode != Activity.RESULT_OK) {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -22,6 +21,7 @@ class SignInActivity : AppCompatActivity()  {
         val data = Intent()
         setResult(Activity.RESULT_OK, data)
         finish()
+
     }
 
     override fun onResume() {

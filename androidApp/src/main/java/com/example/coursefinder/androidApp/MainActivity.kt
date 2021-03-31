@@ -1,59 +1,65 @@
 package com.example.coursefinder.androidApp
 
-import android.app.Activity
-import android.os.Bundle
-import android.content.Intent
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.example.coursefinder.androidApp.course.SelectActivity
-import com.example.coursefinder.androidApp.signIn.SignInActivity
-import com.example.coursefinder.shared.user.USER_ANON_FIELD
-import com.example.coursefinder.shared.user.USER_EMAIL_FIELD
-import com.google.firebase.auth.FirebaseAuth
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.coursefinder.androidApp.databinding.ActivityMainBinding
+import com.firebase.ui.auth.AuthUI
 
 class MainActivity : AppCompatActivity() {
-    private val startSignInActivity = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
-            Log.d(
-                "main activity",
-                "sign in activity result code: ${result.resultCode} --- result: $result"
-            )
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
-            TODO("result was not ok")
+    // Fragments the show the navigation drawer instead of a back button
+    private val topLevelFragments = setOf(R.id.selectSearchScreen)
+
+    override fun onResume() {
+        super.onResume()
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        val appBarConfiguration = AppBarConfiguration(
+            topLevelFragments,
+            binding.drawerLayout
+        )
+
+        supportFragmentManager.primaryNavigationFragment?.let {
+            supportFragmentManager.beginTransaction().detach(it).attach(it).commit()
         }
 
-        launchNextActivity()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
-    }
+        setSupportActionBar(binding.toolbar.root)
+        setupActionBarWithNavController(navController)
+        binding.toolbar.root.setupWithNavController(navController, appBarConfiguration)
 
-    private val startSelectActivity = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
-            Log.d("main activity", "sign in activity result: ${result.resultCode}")
-            TODO("result was not ok")
+        binding.navigationView.root.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.menu_sign_out -> {
+                    userSignOut(this.applicationContext)
+                    navController.navigate(MainFragmentDirections.goToMainFragment())
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
         }
-
-        launchNextActivity()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        launchNextActivity()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    // Launches the next activity to be seen by the user. If there is an active firebase
-    // user then the select screen is shown - if not then the sign in screen is shown
-    private fun launchNextActivity() {
-        FirebaseAuth.getInstance().currentUser?.let {
-            val selectIntent = Intent(this, SelectActivity::class.java)
-            selectIntent.putExtra(USER_EMAIL_FIELD, it.email)
-            selectIntent.putExtra(USER_ANON_FIELD, it.isAnonymous)
-            startSelectActivity.launch(selectIntent)
-        } ?: startSignInActivity.launch(Intent(this, SignInActivity::class.java))
+    private fun userSignOut(context: Context) {
+        AuthUI.getInstance().signOut(context)
     }
+
 }
