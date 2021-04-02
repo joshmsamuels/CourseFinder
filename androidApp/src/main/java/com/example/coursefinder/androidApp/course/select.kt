@@ -1,82 +1,58 @@
 package com.example.coursefinder.androidApp.course
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.example.coursefinder.androidApp.SearchViewActivity
-import com.example.coursefinder.shared.course.SelectModel
+import androidx.fragment.app.Fragment
+import com.example.coursefinder.androidApp.R
+import com.example.coursefinder.androidApp.databinding.SelectSearchTypeBinding
 import com.example.coursefinder.shared.course.SelectDelegate
+import com.example.coursefinder.shared.course.SelectModel
 import com.example.coursefinder.shared.course.SelectViewModel
 
-class SelectActivity : SelectDelegate, AppCompatActivity() {
-    private lateinit var view: SelectView
+class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegate {
     private var viewModel = SelectViewModel(this)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var selectSearchTypeBinding: SelectSearchTypeBinding? = null
 
-        view = SelectView(this)
-        setContentView(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        selectSearchTypeBinding = SelectSearchTypeBinding.bind(view)
+        selectSearchTypeBinding?.let { selectSearchTypeBinding ->
+            selectSearchTypeBinding.setContent(viewModel.generateModel())
+            selectSearchTypeBinding.primaryButton.setOnClickListener {
+                searchByCourseCodeButtonAction()
+            }
+            selectSearchTypeBinding.secondaryButton.setOnClickListener {
+                searchByCourseNameButtonAction()
+            }
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        view.apply(viewModel.generateModel())
+    override fun onDestroyView() {
+        selectSearchTypeBinding = null
+        super.onDestroyView()
     }
 
     override fun searchByCourseCodeButtonAction() {
-        startActivity(Intent(this, SearchViewActivity::class.java))
+        TODO("Not yet implemented")
     }
 
     override fun searchByCourseNameButtonAction() {
-        TODO("Add search by course name intent")
-    }
-}
-
-class SelectView(context: Context?) : LinearLayout(context) {
-    private val primaryTextView: TextView
-    private val primaryButton: Button
-    private val secondaryButton: Button
-    private val primarySpacer: Space
-    private val secondarySpacer: Space
-
-    init {
-        orientation = VERTICAL
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        gravity = Gravity.CENTER
-
-        primaryTextView = TextView(context)
-        primaryButton = Button(context)
-        secondaryButton = Button(context)
-        primarySpacer = Space(context)
-        secondarySpacer = Space(context)
-
-        primaryTextView.gravity = Gravity.CENTER
-        primarySpacer.minimumHeight = 50
-        secondarySpacer.minimumHeight = 50
-
-        addView(primaryTextView)
-        addView(primarySpacer)
-        addView(primaryButton)
-        addView(secondarySpacer)
-        addView(secondaryButton)
+        TODO("Not yet implemented")
     }
 
-    fun apply(model: SelectModel) {
-        primaryTextView.text = model.selectSearchMethodText
-        primaryButton.text = model.searchByCourseCodeButtonText
-        secondaryButton.text = model.searchByCourseNameButtonText
+    private fun SelectSearchTypeBinding.setContent(model: SelectModel) {
+        this.primaryTextView.text = model.selectSearchMethodText
 
-        primaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
-        secondaryButton.setOnClickListener { model.searchByCourseNameButtonAction() }
-
-        invalidate()
+        this.primaryButton.text = model.searchByCourseCodeButtonText
+        this.secondaryButton.text = model.searchByCourseNameButtonText
     }
+
 }
