@@ -44,7 +44,7 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdkVersion(24)
@@ -67,5 +67,5 @@ val packForXcode by tasks.creating(Sync::class) {
 
 tasks.getByName("build").dependsOn(packForXcode)
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 }
