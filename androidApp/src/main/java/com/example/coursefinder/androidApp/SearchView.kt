@@ -1,32 +1,29 @@
 package com.example.coursefinder.androidApp
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DiffUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
-import java.util.Locale.filter
 
-class SearchViewActivity : AppCompatActivity() {
+class SearchViewFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private lateinit var editText: EditText
     private val courses= ArrayList<CourseView>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                          savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.searchview_activity)
-        editText = findViewById(R.id.editText)
+        var view = inflater.inflate(R.layout.searchview_fragment, container, false)
+            editText = view.findViewById(R.id.editText)
+
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -45,7 +42,13 @@ class SearchViewActivity : AppCompatActivity() {
             courses += item
         }
 
-        createRecyclerView()
+        recyclerView = view.findViewById(R.id.courseListView)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerViewAdapter = RecyclerViewAdapter(view.context, courses)
+        recyclerView.adapter = recyclerViewAdapter;
+
+        return view;
 
     }
 
@@ -60,14 +63,6 @@ class SearchViewActivity : AppCompatActivity() {
 
     }
 
-    private fun createRecyclerView(){
-        recyclerView = findViewById(R.id.courseListView)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerViewAdapter = RecyclerViewAdapter(this, courses)
-        recyclerView.adapter = recyclerViewAdapter;
-
-    }
 
 
 }
