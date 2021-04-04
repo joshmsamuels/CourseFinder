@@ -23,6 +23,7 @@
             android:id="@+id/action_main_to_select_search"
             app:destination="@id/selectSearchScreen"
             />
+
     </fragment>
 
     <fragment
@@ -33,6 +34,12 @@
             android:id="@+id/action_select_search_to_main_fragment"
             app:destination="@id/mainFragment"
             />
+
+        <action
+            android:id="@+id/action_select_search_to_subscription_selection"
+            app:destination="@id/subscriptionScreen"
+            />
+
     </fragment>
 
     <activity
@@ -40,6 +47,17 @@
         android:name="com.example.coursefinder.androidApp.signIn.SignInActivity"
         >
     </activity>
+
+    <fragment
+        android:id="@+id/subscriptionScreen"
+        android:name="com.example.coursefinder.androidApp.course.SubscriptionFragment">
+
+        <argument
+            android:name="courseCode"
+            app:argType="string"
+            />
+
+    </fragment>
 
 
 </navigation>
