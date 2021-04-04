@@ -1,14 +1,11 @@
 package com.example.coursefinder.androidApp.course
 
-import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.Space
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.androidApp.databinding.SelectSearchTypeBinding
 import com.example.coursefinder.shared.course.SelectDelegate
@@ -24,15 +21,7 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
         super.onViewCreated(view, savedInstanceState)
 
         selectSearchTypeBinding = SelectSearchTypeBinding.bind(view)
-        selectSearchTypeBinding?.let { selectSearchTypeBinding ->
-            selectSearchTypeBinding.setContent(viewModel.generateModel())
-            selectSearchTypeBinding.primaryButton.setOnClickListener {
-                searchByCourseCodeButtonAction()
-            }
-            selectSearchTypeBinding.secondaryButton.setOnClickListener {
-                searchByCourseNameButtonAction()
-            }
-        }
+        selectSearchTypeBinding?.setContent(viewModel.generateModel())
     }
 
     override fun onDestroyView() {
@@ -52,7 +41,21 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
         this.primaryTextView.text = model.selectSearchMethodText
 
         this.primaryButton.text = model.searchByCourseCodeButtonText
+        this.primaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
+
         this.secondaryButton.text = model.searchByCourseNameButtonText
+        this.secondaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
+
+        // TODO - remove from here down when the subscription fragment is wired up
+        val btn = Button(context)
+        btn.text = "TEST - navigate to\nsubscription fragment"
+        btn.setOnClickListener {
+            findNavController().navigate(
+                SelectSearchFragmentDirections.actionSelectSearchToSubscriptionSelection("TEST COURSE CODE")
+            )
+        }
+        this.root.addView(btn)
+
     }
 
 }
