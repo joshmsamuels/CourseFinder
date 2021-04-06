@@ -19,6 +19,7 @@ interface SelectDelegate {
 
 class SelectViewModel(private val delegate: SelectDelegate?): ViewModel() {
     fun generateModel(): SelectModel {
+        
         return SelectModel(
             "Select a search method:",
             "Search by Course Code",

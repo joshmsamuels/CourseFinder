@@ -15,6 +15,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.4")
     implementation("dev.icerock.moko:mvvm-core:0.9.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.1.0")
 }
 
 android {
@@ -35,9 +36,12 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        dataBinding = true
         viewBinding = true
     }
 }
 
-apply(mapOf("plugin" to "com.google.gms.google-services"))
-apply(mapOf("plugin" to "androidx.navigation.safeargs.kotlin"))
+apply(plugin = "com.google.gms.google-services")
+apply(plugin = "androidx.navigation.safeargs.kotlin")
+apply(plugin = "kotlin-kapt")
+apply(plugin = "kotlinx-serialization")

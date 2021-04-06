@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+apply(plugin = "kotlinx-serialization")
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -14,10 +16,18 @@ kotlin {
             }
         }
     }
+
+    val ktorVersion = "1.5.3"
+    val serializationVersion = "1.1.0"
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation("dev.icerock.moko:mvvm-livedata:0.9.1")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-json:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
             }
         }
         val commonTest by getting {
@@ -30,6 +40,7 @@ kotlin {
             dependencies {
                 implementation("com.google.android.material:material:1.2.1")
                 implementation("com.firebaseui:firebase-ui-auth:6.4.0")
+                implementation ("io.ktor:ktor-client-android:$ktorVersion")
             }
         }
         val androidTest by getting {
