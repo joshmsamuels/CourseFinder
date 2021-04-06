@@ -22,6 +22,7 @@ interface SearchCourseDelegate {
 
 class SearchCourseViewModel(private val delegate: SearchCourseDelegate?): ViewModel() {
     data class Course(val courseCode: String, val courseName: String)
+
     val courses = listOf(
         Course("CIS*1000", "Intro to Programming"),
         Course("CIS*1500", "Programming"),

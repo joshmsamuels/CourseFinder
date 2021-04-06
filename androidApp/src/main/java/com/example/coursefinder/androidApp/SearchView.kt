@@ -13,14 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
 import com.example.coursefinder.androidApp.course.SubscriptionFragmentArgs
+import com.example.coursefinder.shared.course.SearchCourseDelegate
+import com.example.coursefinder.shared.course.SearchCourseViewModel
 
 
-class SearchViewFragment : Fragment() {
+class SearchViewFragment : Fragment(), SearchCourseDelegate {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private lateinit var editText: EditText
-    private val courses= ArrayList<CourseView>()
+    private val courseList= ArrayList<CourseView>()
     private val args: SearchViewFragmentArgs by navArgs()
+    private val viewModel = SearchCourseViewModel(this)
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,15 +44,20 @@ class SearchViewFragment : Fragment() {
         println(args.searchType)
         editText.addTextChangedListener(textWatcher)
 
-        for(i in 0 until 20){
-            val item = CourseView("course $i", "description $i")
-            courses += item
+        val length = viewModel.courses.size
+
+        for(i in 0 until length){
+            if(args.searchType == "courseCode"){
+                courseList+= CourseView(viewModel.courses[i].courseCode, "description $i")
+            } else if(args.searchType == "courseName"){
+                courseList += CourseView(viewModel.courses[i].courseName, "description $i")
+            }
         }
 
         recyclerView = view.findViewById(R.id.courseListView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerViewAdapter = RecyclerViewAdapter(view.context, courses)
+        recyclerViewAdapter = RecyclerViewAdapter(view.context, courseList)
         recyclerView.adapter = recyclerViewAdapter;
 
         return view;
@@ -57,8 +65,8 @@ class SearchViewFragment : Fragment() {
     }
 
     private fun filter(text: String) {
-        var filteredList = ArrayList<CourseView>()
-        for( course in courses){
+        val filteredList = ArrayList<CourseView>()
+        for( course in courseList){
             if(course.title.toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(course);
             }
@@ -67,6 +75,9 @@ class SearchViewFragment : Fragment() {
 
     }
 
+    override fun showCourseDetails(courseCode: String) {
+        TODO("Not yet implemented")
+    }
 
 
 }
