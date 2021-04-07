@@ -67,6 +67,12 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.refresh()
+    }
+
     override fun onItemClick(position: Int) {
         super.onItemClick(position)
         showCourseDetails(courseList[position].title)
