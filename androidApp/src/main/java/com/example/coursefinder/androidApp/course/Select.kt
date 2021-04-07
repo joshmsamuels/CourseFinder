@@ -30,7 +30,6 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
     }
 
     override fun searchByCourseCodeButtonAction() {
-//        SearchCourseViewModel(this).courses
        findNavController().navigate(
             SelectSearchFragmentDirections.actionSelectSearchToSearchView("courseCode")
         )

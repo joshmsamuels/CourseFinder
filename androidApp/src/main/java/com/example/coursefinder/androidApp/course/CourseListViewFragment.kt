@@ -1,4 +1,4 @@
-package com.example.coursefinder.androidApp
+package com.example.coursefinder.androidApp.course
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,23 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
+import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.shared.course.SearchCourseDelegate
 import com.example.coursefinder.shared.course.SearchCourseViewModel
 
 
-class SearchViewFragment : Fragment(), SearchCourseDelegate,RecyclerViewAdapter.OnItemClickListener {
+class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
+    private lateinit var courseListViewAdapter: CourseListViewAdapter
     private lateinit var editText: EditText
     private val courseList = ArrayList<CourseView>()
-    private val args: SearchViewFragmentArgs by navArgs()
+    private val args: CourseListViewFragmentArgs by navArgs()
     private val viewModel = SearchCourseViewModel(this)
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                           savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view = inflater.inflate(R.layout.searchview_fragment, container, false)
+        val view = inflater.inflate(R.layout.course_list_view_fragment, container, false)
             editText = view.findViewById(R.id.editText)
 
         val textWatcher = object : TextWatcher {
@@ -54,14 +55,14 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate,RecyclerViewAdapter.
                 }
             }
 
-            recyclerViewAdapter.updateCoursesList(courseList)
+            courseListViewAdapter.updateCoursesList(courseList)
         })
 
         recyclerView = view.findViewById(R.id.courseListView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerViewAdapter = RecyclerViewAdapter(view.context, courseList,this)
-        recyclerView.adapter = recyclerViewAdapter
+        courseListViewAdapter = CourseListViewAdapter(courseList, this)
+        recyclerView.adapter = courseListViewAdapter
 
         return view
     }
@@ -79,7 +80,7 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate,RecyclerViewAdapter.
                 filteredList.add(course)
             }
         }
-        recyclerViewAdapter.updateCoursesList(filteredList)
+        courseListViewAdapter.updateCoursesList(filteredList)
 
     }
 

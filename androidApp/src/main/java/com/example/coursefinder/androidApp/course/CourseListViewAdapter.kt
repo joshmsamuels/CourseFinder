@@ -1,14 +1,17 @@
-package com.example.coursefinder.androidApp
+package com.example.coursefinder.androidApp.course
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.androidApp.model.CourseView
 
-class RecyclerViewAdapter(var context: Context, private var courses:List<CourseView>, private val rowListener:OnItemClickListener): RecyclerView.Adapter<RecyclerViewAdapter.CourseViewHolder>() {
+class CourseListViewAdapter(
+    private var courses:List<CourseView>,
+    private val rowListener: OnItemClickListener
+    ): RecyclerView.Adapter<CourseListViewAdapter.CourseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
@@ -19,7 +22,6 @@ class RecyclerViewAdapter(var context: Context, private var courses:List<CourseV
     }
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-
         holder.itemView.isEnabled = true
         holder.courseTitle.text = courses[position].title
         holder.courseDescription.text = courses[position].description
@@ -53,8 +55,6 @@ class RecyclerViewAdapter(var context: Context, private var courses:List<CourseV
     }
 
     interface  OnItemClickListener{
-        fun onItemClick(position: Int){
-
-        }
+        fun onItemClick(position: Int) {}
     }
 }

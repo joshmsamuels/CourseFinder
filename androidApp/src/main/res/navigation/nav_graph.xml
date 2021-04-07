@@ -65,7 +65,7 @@
 
     <fragment
         android:id="@+id/searchViewScreen"
-        android:name="com.example.coursefinder.androidApp.SearchViewFragment">
+        android:name="com.example.coursefinder.androidApp.course.CourseListViewFragment">
 
         <argument
             android:name="searchType"
