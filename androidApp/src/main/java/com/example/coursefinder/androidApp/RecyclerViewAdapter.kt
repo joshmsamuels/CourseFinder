@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 
 class RecyclerViewAdapter(var context: Context, private var courses:List<CourseView>): RecyclerView.Adapter<RecyclerViewAdapter.CourseViewHolder>() {
-//    private val courseList = ArrayList<CourseView>()
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
         val title = itemView.findViewById<TextView>(R.id.course_title)
         val description = itemView.findViewById<TextView>(R.id.course_description)
 
@@ -35,8 +33,9 @@ class RecyclerViewAdapter(var context: Context, private var courses:List<CourseV
         var courseDescription:TextView = itemView.findViewById(R.id.course_description)
     }
 
-    fun filterList(filteredList: ArrayList<CourseView>) {
-        courses= filteredList
+    fun updateCoursesList(coursesList: ArrayList<CourseView>) {
+        courses= coursesList
         notifyDataSetChanged()
     }
+
 }

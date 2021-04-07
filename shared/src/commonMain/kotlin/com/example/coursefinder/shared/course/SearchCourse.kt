@@ -11,18 +11,21 @@ interface SearchCourseDelegate {
 
 class SearchCourseViewModel(private val delegate: SearchCourseDelegate?): ViewModel() {
 
-    private val _courses = listOf(
-        MutableLiveData(Course("CIS*1000", "Intro to Programming")),
-        MutableLiveData(Course("CIS*1500", "Programming")),
-        MutableLiveData(Course("CIS*4250", "Soft design")),
-        MutableLiveData(Course("ACCT*1220", "Intro to accounting")),
-        MutableLiveData( Course("ACCT*4420", "accounting")),
-
+    private val _courses = MutableLiveData(
+        listOf(
+            Course("CIS*1000", "Intro to Programming"),
+            Course("CIS*1500", "Programming"),
+            Course("CIS*4250", "Soft design"),
+            Course("ACCT*1220", "Intro to accounting"),
+            Course("ACCT*4420", "accounting"),
+        )
     )
 
-    val courses = _courses.map { it.readOnly() }
+    val courses = _courses.readOnly()
+
+    fun refresh() {}
 
     fun rowAction(index: Int) {
-        delegate?.showCourseDetails(_courses[index].value.courseCode)
+        delegate?.showCourseDetails(_courses.value[index].courseCode)
     }
 }
