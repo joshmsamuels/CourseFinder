@@ -82,7 +82,7 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate,RecyclerViewAdapter.
     }
 
     override fun showCourseDetails(courseCode: String) {
-        println(courseCode)
+        TODO("NOT IMPLEMENTED")
     }
 
 
