@@ -16,7 +16,7 @@ import com.example.coursefinder.shared.course.SearchCourseDelegate
 import com.example.coursefinder.shared.course.SearchCourseViewModel
 
 
-class SearchViewFragment : Fragment(), SearchCourseDelegate {
+class SearchViewFragment : Fragment(), SearchCourseDelegate,RecyclerViewAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private lateinit var editText: EditText
@@ -46,7 +46,7 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate {
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
 
-            for(i in viewModel.courses.value.indices){
+            for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
                     courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
                 } else if (args.searchType == "courseName") {
@@ -60,11 +60,17 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate {
         recyclerView = view.findViewById(R.id.courseListView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerViewAdapter = RecyclerViewAdapter(view.context, courseList)
+        recyclerViewAdapter = RecyclerViewAdapter(view.context, courseList,this)
         recyclerView.adapter = recyclerViewAdapter
 
         return view
     }
+
+    override fun onItemClick(position: Int) {
+        super.onItemClick(position)
+        showCourseDetails(courseList[position].title)
+    }
+
 
     private fun filter(text: String) {
         val filteredList = ArrayList<CourseView>()
@@ -78,8 +84,7 @@ class SearchViewFragment : Fragment(), SearchCourseDelegate {
     }
 
     override fun showCourseDetails(courseCode: String) {
-        TODO("Not yet implemented")
+        TODO("NOT IMPLEMENTED")
     }
-
 
 }
