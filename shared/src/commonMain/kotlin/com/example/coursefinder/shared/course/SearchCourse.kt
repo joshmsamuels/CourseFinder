@@ -1,9 +1,11 @@
 package com.example.coursefinder.shared.course
 
 import com.example.coursefinder.shared.model.Course
+import com.example.coursefinder.shared.networking.WebadvisorApi
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.launch
 
 interface SearchCourseDelegate {
     fun showCourseDetails(courseCode: String)
@@ -11,19 +13,19 @@ interface SearchCourseDelegate {
 
 class SearchCourseViewModel(private val delegate: SearchCourseDelegate?): ViewModel() {
 
-    private val _courses = MutableLiveData(
-        listOf(
-            Course("CIS*1000", "Intro to Programming"),
-            Course("CIS*1500", "Programming"),
-            Course("CIS*4250", "Soft design"),
-            Course("ACCT*1220", "Intro to accounting"),
-            Course("ACCT*4420", "accounting"),
-        )
-    )
+    private val _courses = MutableLiveData<List<Course>>(listOf())
 
     val courses = _courses.readOnly()
 
-    fun refresh() {}
+    fun refresh() {
+        viewModelScope.launch {
+            try {
+                _courses.value = WebadvisorApi.getCourses()
+            } catch (err: Throwable) {
+                TODO("handle error when getting courses")
+            }
+        }
+    }
 
     fun rowAction(index: Int) {
         delegate?.showCourseDetails(_courses.value[index].courseCode)
