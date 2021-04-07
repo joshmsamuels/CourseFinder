@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.androidApp.databinding.SelectSearchTypeBinding
-import com.example.coursefinder.shared.course.SearchCourseViewModel
 import com.example.coursefinder.shared.course.SelectDelegate
 import com.example.coursefinder.shared.course.SelectModel
 import com.example.coursefinder.shared.course.SelectViewModel

@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
 import com.example.coursefinder.androidApp.R
+import com.example.coursefinder.shared.course.RetrievalType
 import com.example.coursefinder.shared.course.SearchCourseDelegate
-import com.example.coursefinder.shared.course.SearchCourseViewModel
+import com.example.coursefinder.shared.course.RetrieveCoursesViewModel
 
 
 class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewAdapter.OnItemClickListener {
@@ -23,11 +24,13 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     private lateinit var editText: EditText
     private val courseList = ArrayList<CourseView>()
     private val args: CourseListViewFragmentArgs by navArgs()
-    private val viewModel = SearchCourseViewModel(this)
+    private val viewModel = RetrieveCoursesViewModel(this, RetrievalType.AvailableCourses)
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                          savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.course_list_view_fragment, container, false)
             editText = view.findViewById(R.id.editText)
@@ -41,7 +44,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         }
-        println(args.searchType)
+
         editText.addTextChangedListener(textWatcher)
 
         viewModel.courses.ld().observe(viewLifecycleOwner, {

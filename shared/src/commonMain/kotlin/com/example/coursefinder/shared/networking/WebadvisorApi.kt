@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 object WebadvisorApi {
     // TODO: Update URL for real API once it is completed
     private const val baseUrl = "https://api.mocki.io/v1/03581331"
+    private const val emailBaseUrl = "https://64zwv.mocklab.io"
 
     private val httpClient = HttpClient() {
         install(JsonFeature) {
@@ -18,8 +19,12 @@ object WebadvisorApi {
         }
     }
 
-    suspend fun getCourses(): List<Course> {
+    suspend fun getAllCourses(): List<Course> {
         return httpClient.get(baseUrl)
+    }
+
+    suspend fun getSavedCourses(email: String): List<Course> {
+        return httpClient.get("${emailBaseUrl}?email=$email")
     }
 
     // TODO: close client
