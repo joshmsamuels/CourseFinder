@@ -1,66 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.coursefinder.shared.course.SubscriptionViewModel" />
+    </data>
+
+    <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/subscription_view_title"
-        android:gravity="center"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/subscription_view_content_area"
-        android:layout_below="@id/subscription_view_title"
-        android:orientation="vertical" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subscription_view_content_area"
-        android:id="@+id/subscription_view_textfield_area"
-        android:orientation="horizontal"
-        >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/subscription_view_textbox_title"
+            android:id="@+id/subscription_view_title"
+            android:gravity="center"
+            android:text="@{viewModel.title.ld}"
             />
 
-        <EditText
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/subscription_view_textbox"
-            android:autofillHints="email@example.com"
-            android:inputType="textEmailAddress"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subscription_view_textfield_area"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/subscription_view_primary_button"
-            android:layout_weight="1"
+            android:id="@+id/subscription_view_content_area"
+            android:layout_below="@id/subscription_view_title"
+            android:orientation="vertical"
             />
 
-        <Button
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/subscription_view_secondary_button"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
+            android:layout_below="@id/subscription_view_content_area"
+            android:id="@+id/subscription_view_textfield_area"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscription_view_textbox_title"
+                android:text="@{viewModel.textFieldPrompt.ld}"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscription_view_textbox"
+                android:autofillHints="email@example.com"
+                android:inputType="textEmailAddress"
+                android:layout_weight="1"
+                android:text="@={viewModel.textField.ld}"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subscription_view_textfield_area"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscription_view_primary_button"
+                android:layout_weight="1"
+                android:text="@{viewModel.saveButtonText.ld}"
+                android:onClick="@{() -> viewModel.saveNotifications()}"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscription_view_secondary_button"
+                android:layout_weight="1"
+                android:text="@{viewModel.cancelButtonText.ld}"
+                android:onClick="@{() -> viewModel.cancel()}"
+                />
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
