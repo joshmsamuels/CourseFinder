@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.androidApp.databinding.SelectSearchTypeBinding
+import com.example.coursefinder.shared.course.SearchCourseViewModel
 import com.example.coursefinder.shared.course.SelectDelegate
 import com.example.coursefinder.shared.course.SelectModel
 import com.example.coursefinder.shared.course.SelectViewModel
@@ -30,11 +30,15 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
     }
 
     override fun searchByCourseCodeButtonAction() {
-        TODO("Not yet implemented")
+       findNavController().navigate(
+            SelectSearchFragmentDirections.actionSelectSearchToSearchView("courseCode")
+        )
     }
 
     override fun searchByCourseNameButtonAction() {
-        TODO("Not yet implemented")
+        findNavController().navigate(
+            SelectSearchFragmentDirections.actionSelectSearchToSearchView("courseName")
+        )
     }
 
     private fun SelectSearchTypeBinding.setContent(model: SelectModel) {
@@ -44,7 +48,7 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
         this.primaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
 
         this.secondaryButton.text = model.searchByCourseNameButtonText
-        this.secondaryButton.setOnClickListener { model.searchByCourseCodeButtonAction() }
+        this.secondaryButton.setOnClickListener { model.searchByCourseNameButtonAction() }
 
         // TODO - remove from here down when the subscription fragment is wired up
         val btn = Button(context)

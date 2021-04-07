@@ -39,6 +39,10 @@
             android:id="@+id/action_select_search_to_subscription_selection"
             app:destination="@id/subscriptionScreen"
             />
+        <action
+            android:id="@+id/action_select_search_to_search_view"
+            app:destination="@id/searchViewScreen"
+            />
 
     </fragment>
 
@@ -54,6 +58,17 @@
 
         <argument
             android:name="courseCode"
+            app:argType="string"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchViewScreen"
+        android:name="com.example.coursefinder.androidApp.course.CourseListViewFragment">
+
+        <argument
+            android:name="searchType"
             app:argType="string"
             />
 
