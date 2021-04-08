@@ -46,8 +46,7 @@ class SubscriptionViewModel(
     }
 
     fun saveNotifications(
-//        courseId: String? = this.courseId,
-        courseId: String? = null,
+        courseId: String? = this.courseId,
         email: String = emailFieldValue.value,
         term: String
     ) {

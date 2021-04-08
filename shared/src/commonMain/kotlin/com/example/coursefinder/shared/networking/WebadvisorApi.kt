@@ -13,7 +13,7 @@ object WebadvisorApi {
     // TODO: Update URL for real API once it is completed
     private const val baseUrl = "https://api.mocki.io/v1/03581331"
     private const val emailBaseUrl = "https://64zwv.mocklab.io"
-
+    private const val localhostLoopback = "http://10.0.2.2:8080"
     private val httpClient = HttpClient {
         install(JsonFeature) {
             val json = Json { ignoreUnknownKeys = true }
@@ -36,13 +36,12 @@ object WebadvisorApi {
         term: String
     ) {
         return httpClient.post {
-            url("${baseUrl}/api/v1/notifications")
+            url("${localhostLoopback}/api/v1/notifications")
             contentType(ContentType.Application.Json)
             body = SaveNotificationRequest(
                 courseId = courseId,
                 email = email,
-                notifications = notifications,
-                term = term
+                notifications = mapOf(term to notifications),
             )
         }
     }

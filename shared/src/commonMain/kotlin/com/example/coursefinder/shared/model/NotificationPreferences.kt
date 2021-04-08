@@ -1,16 +1,25 @@
 package com.example.coursefinder.shared.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NotificationPreferences(
+    @SerialName("Available")
     val available: Boolean = false,
+    @SerialName("Capacity")
     val capacity: Boolean = false,
+    @SerialName("CourseCode")
     val courseCode: Boolean = false,
+    @SerialName("CourseName")
     val courseName: Boolean = false,
+    @SerialName("ExamTime")
     val examTime: Boolean = false,
+    @SerialName("LabTime")
     val labTime: Boolean = false,
+    @SerialName("LectureTime")
     val lectureTime: Boolean = false,
+    @SerialName("Professor")
     val professor: Boolean = false,
 )
 

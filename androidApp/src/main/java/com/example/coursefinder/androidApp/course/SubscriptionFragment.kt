@@ -37,7 +37,7 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
 
         subscriptionFragmentBinding.lifecycleOwner = this
         subscriptionFragmentBinding.viewModel = viewModel
-        subscriptionFragmentBinding.subscriptionViewPrimaryButton.setOnClickListener { viewModel.saveNotifications(term = "W21") }
+        subscriptionFragmentBinding.subscriptionViewPrimaryButton.setOnClickListener { viewModel.saveNotifications(term = "Winter 2021") }
         subscriptionFragmentBinding.subscriptionViewSecondaryButton.setOnClickListener { viewModel.cancel() }
 
         return subscriptionFragmentBinding.root
