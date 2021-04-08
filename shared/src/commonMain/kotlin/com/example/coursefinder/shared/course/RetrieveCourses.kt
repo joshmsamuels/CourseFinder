@@ -11,16 +11,29 @@ interface SearchCourseDelegate {
     fun showCourseDetails(courseCode: String)
 }
 
-class SearchCourseViewModel(private val delegate: SearchCourseDelegate?): ViewModel() {
+sealed class RetrievalType {
+    object AvailableCourses : RetrievalType()
+    class Subscriptions(val email: String) : RetrievalType()
+}
 
+class RetrieveCoursesViewModel(
+    private val delegate: SearchCourseDelegate?,
+    var retrievalType: RetrievalType,
+): ViewModel() {
     private val _courses = MutableLiveData<List<Course>>(listOf())
-
     val courses = _courses.readOnly()
 
-    fun refresh() {
+    init {
+        refresh()
+    }
+
+    fun refresh(retrieveCourses: RetrievalType = retrievalType) {
         viewModelScope.launch {
             try {
-                _courses.value = WebadvisorApi.getCourses()
+                when (retrieveCourses) {
+                    is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getAllCourses()
+                    is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email)
+                }
             } catch (err: Throwable) {
                 TODO("handle error when getting courses")
             }
