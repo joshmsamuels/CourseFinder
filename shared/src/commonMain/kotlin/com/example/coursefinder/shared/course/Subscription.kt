@@ -1,6 +1,8 @@
 package com.example.coursefinder.shared.course
 
+import com.example.coursefinder.shared.model.NotificationPreferencesFactory
 import com.example.coursefinder.shared.model.NotificationRow
+import com.example.coursefinder.shared.networking.WebadvisorApi
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -11,37 +13,59 @@ interface SubscriptionDelegate {
     fun showError(msg: String)
 }
 
-class SubscriptionViewModel(private val delegate: SubscriptionDelegate?): ViewModel() {
+class SubscriptionViewModel(
+    private val delegate: SubscriptionDelegate?,
+    var courseId: String? = null
+): ViewModel() {
     private val _title = MutableLiveData("TITLE")
-    private val _textFieldPrompt = MutableLiveData("Email:")
+    private val _emailFieldPrompt = MutableLiveData("Email:")
     private val _saveButtonText = MutableLiveData("Save")
     private val _cancelButtonText = MutableLiveData("Cancel")
 
     val title = _title.readOnly()
     val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(
         listOf(
-            NotificationRow("Test Title", "Test Subtitle"),
-            NotificationRow("Test Title", "Test Subtitle"),
-            NotificationRow("Test Title", "Test Subtitle"),
-            NotificationRow("Test Title", "Test Subtitle"),
-            NotificationRow("Test Title", "Test Subtitle"),
+            NotificationRow("available", "Test Subtitle"),
+            NotificationRow("capacity", "Test Subtitle"),
+            NotificationRow("courseCode", "Test Subtitle"),
+            NotificationRow("courseName", "Test Subtitle"),
+            NotificationRow("examTime", "Test Subtitle"),
+            NotificationRow("labTime", "Test Subtitle"),
+            NotificationRow("lectureTime", "Test Subtitle"),
+            NotificationRow("professor", "Test Subtitle"),
         )
     )
 
-    val textFieldPrompt = _textFieldPrompt.readOnly()
-    val textField = MutableLiveData("")
+    val emailFieldPrompt = _emailFieldPrompt.readOnly()
+    val emailFieldValue = MutableLiveData("")
     val saveButtonText = _saveButtonText.readOnly()
     val cancelButtonText = _cancelButtonText.readOnly()
 
-    fun refresh(courseCode: String? = null) {}
+    fun refresh(courseId: String? = this.courseId) {
+        this.courseId = courseId
+    }
 
-    fun saveNotifications() {
+    fun saveNotifications(
+        courseId: String? = this.courseId,
+        email: String = emailFieldValue.value,
+        term: String
+    ) {
         viewModelScope.launch {
             try {
-                // TODO: Save on server
-                delegate?.navigateHome()
+                val cId = courseId.takeUnless {
+                    it == null
+                } ?: throw Error("Course ID must not be null")
 
+                WebadvisorApi.saveNotificationPreferences(
+                    courseId = cId,
+                    email = email,
+                    notifications = NotificationPreferencesFactory.makeNotificationPreferencesFromNotificationRow(notificationRows.value),
+                    term = term
+                )
+
+                delegate?.navigateHome()
             } catch (err: Throwable) {
+                println("error saving notification - $err")
                 delegate?.showError(err.message ?: "Could not save notifications")
             }
         }

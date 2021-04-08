@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/subscription_view_textbox_title"
-                android:text="@{viewModel.textFieldPrompt.ld}"
+                android:text="@{viewModel.emailFieldPrompt.ld}"
                 />
 
             <EditText
@@ -49,7 +49,7 @@
                 android:autofillHints="email@example.com"
                 android:inputType="textEmailAddress"
                 android:layout_weight="1"
-                android:text="@={viewModel.textField.ld}"
+                android:text="@={viewModel.emailFieldValue.ld}"
                 />
         </LinearLayout>
 
@@ -64,7 +64,6 @@
                 android:id="@+id/subscription_view_primary_button"
                 android:layout_weight="1"
                 android:text="@{viewModel.saveButtonText.ld}"
-                android:onClick="@{() -> viewModel.saveNotifications()}"
                 />
 
             <Button
@@ -73,7 +72,6 @@
                 android:id="@+id/subscription_view_secondary_button"
                 android:layout_weight="1"
                 android:text="@{viewModel.cancelButtonText.ld}"
-                android:onClick="@{() -> viewModel.cancel()}"
                 />
         </LinearLayout>
 
