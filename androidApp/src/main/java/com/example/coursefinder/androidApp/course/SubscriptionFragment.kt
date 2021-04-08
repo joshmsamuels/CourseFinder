@@ -31,10 +31,16 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
             false
         )
 
-        binding?.lifecycleOwner = this
-        binding?.viewModel = viewModel
+        val subscriptionFragmentBinding = binding.takeUnless {
+            binding == null
+        } ?: TODO("Handle subscription_fragment_view binding is null")
 
-        return binding!!.root
+        subscriptionFragmentBinding.lifecycleOwner = this
+        subscriptionFragmentBinding.viewModel = viewModel
+        subscriptionFragmentBinding.subscriptionViewPrimaryButton.setOnClickListener { viewModel.saveNotifications(term = "W21") }
+        subscriptionFragmentBinding.subscriptionViewSecondaryButton.setOnClickListener { viewModel.cancel() }
+
+        return subscriptionFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,9 +57,14 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
                 )
                 val rowBinding = SubscriptionViewRowBinding.bind(rowView)
 
-                rowBinding.subscriptionViewRowTitle.text = row.title
-                rowBinding.subscriptionViewRowSubtitle.text = row.subtitle
-                rowBinding.subscriptionViewRowCheckbox.isChecked = row.value
+                // Updates the row information when the view model is changed
+                rowBinding.subscriptionViewRowTitle.text = row.notificationName
+                rowBinding.subscriptionViewRowSubtitle.text = row.courseRowDetail
+                rowBinding.subscriptionViewRowCheckbox.isChecked = row.checked
+
+                // Updates the view model when the checkbox state changes
+                // TODO: Is there a way to use data for the list of rows?
+                rowBinding.subscriptionViewRowCheckbox.setOnClickListener { row.checked = !row.checked }
 
                 binding?.subscriptionViewContentArea?.addView(rowView)
             }
