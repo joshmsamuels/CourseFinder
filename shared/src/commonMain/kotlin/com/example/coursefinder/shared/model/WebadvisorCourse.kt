@@ -3,7 +3,7 @@ package com.example.coursefinder.shared.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Course(
+data class WebadvisorCourse(
     val available: Int = 0,
     val capacity: Int = 0,
     val courseCode: String = "",
@@ -11,5 +11,6 @@ data class Course(
     val examTime: String = "",
     val labTime: String = "",
     val lectureTime: String = "",
-    val professor: String = ""
+    val professor: String = "",
+    val seminar: String = ""
 )
