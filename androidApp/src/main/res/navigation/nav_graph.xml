@@ -24,6 +24,11 @@
             app:destination="@id/selectSearchScreen"
             />
 
+        <action
+            android:id="@+id/action_main_to_course_list_view"
+            app:destination="@id/searchViewScreen"
+            />
+
     </fragment>
 
     <fragment
@@ -73,6 +78,7 @@
             />
 
     </fragment>
+
 
 
 </navigation>

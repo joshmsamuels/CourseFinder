@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.coursefinder.androidApp.course.SelectSearchFragmentDirections
 import com.example.coursefinder.androidApp.databinding.ActivityMainBinding
 import com.firebase.ui.auth.AuthUI
 
@@ -47,7 +48,15 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(MainFragmentDirections.goToMainFragment())
                     true
                 }
-                else -> {
+                R.id.menu_home-> {
+                    true
+                }
+                R.id.menu_manage_notifications->{
+                    navController.navigate(SelectSearchFragmentDirections.actionSelectSearchToSearchView("userCourses"))
+//
+                    true
+                }
+                else->{
                     false
                 }
             }
