@@ -32,7 +32,10 @@ class RetrieveCoursesViewModel(
             try {
                 when (retrieveCourses) {
                     is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getDiscoveryCourses()
-                    is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email)
+                    // TODO: Save preferences for the next page?
+                    is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email).map {
+                        it.toWebadvisorCourse()
+                    }
                 }
             } catch (err: Throwable) {
                 println("Error getting courses $err")

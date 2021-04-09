@@ -12,5 +12,6 @@ data class WebadvisorCourse(
     val labTime: String = "",
     val lectureTime: String = "",
     val professor: String = "",
-    val seminar: String = ""
+    val seminar: String = "",
+    val status: String = ""
 )

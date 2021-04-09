@@ -15,7 +15,9 @@ interface SubscriptionDelegate {
 
 class SubscriptionViewModel(
     private val delegate: SubscriptionDelegate?,
-    var courseId: String? = null
+    var courseId: String? = null,
+    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(listOf()),
+    email: String = ""
 ): ViewModel() {
     private val _title = MutableLiveData("TITLE")
     private val _emailFieldPrompt = MutableLiveData("Email:")
@@ -23,12 +25,16 @@ class SubscriptionViewModel(
     private val _cancelButtonText = MutableLiveData("Cancel")
 
     val title = _title.readOnly()
-    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(listOf())
+
 
     val emailFieldPrompt = _emailFieldPrompt.readOnly()
-    val emailFieldValue = MutableLiveData("")
+    val emailFieldValue = MutableLiveData(email)
     val saveButtonText = _saveButtonText.readOnly()
     val cancelButtonText = _cancelButtonText.readOnly()
+
+    init {
+        refresh()
+    }
 
     fun refresh(courseId: String? = this.courseId) {
         this.courseId = courseId
@@ -43,13 +49,12 @@ class SubscriptionViewModel(
 
                 notificationRows.value = listOf(
                     NotificationRow("available", course.available.toString()),
-                    NotificationRow("courseCode", course.courseCode),
-                    NotificationRow("courseName", course.courseName),
                     NotificationRow("examTime", course.examTime),
                     NotificationRow("labTime", course.labTime),
                     NotificationRow("lectureTime", course.lectureTime),
                     NotificationRow("professor", course.professor),
                     NotificationRow("seminar", course.seminar),
+                    NotificationRow("status", course.status),
                 )
 
                 _title.value = cId
