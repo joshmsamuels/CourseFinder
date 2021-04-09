@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_manage_notifications->{
-
+                    navController.navigate(MainFragmentDirections.goToSubscribedCourseList("userCourses"))
 //
                     true
                 }
