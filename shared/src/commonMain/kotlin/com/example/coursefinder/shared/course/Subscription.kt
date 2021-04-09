@@ -23,18 +23,7 @@ class SubscriptionViewModel(
     private val _cancelButtonText = MutableLiveData("Cancel")
 
     val title = _title.readOnly()
-    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(
-        listOf(
-            NotificationRow("available", "Test Subtitle"),
-            NotificationRow("capacity", "Test Subtitle"),
-            NotificationRow("courseCode", "Test Subtitle"),
-            NotificationRow("courseName", "Test Subtitle"),
-            NotificationRow("examTime", "Test Subtitle"),
-            NotificationRow("labTime", "Test Subtitle"),
-            NotificationRow("lectureTime", "Test Subtitle"),
-            NotificationRow("professor", "Test Subtitle"),
-        )
-    )
+    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(listOf())
 
     val emailFieldPrompt = _emailFieldPrompt.readOnly()
     val emailFieldValue = MutableLiveData("")
@@ -43,6 +32,32 @@ class SubscriptionViewModel(
 
     fun refresh(courseId: String? = this.courseId) {
         this.courseId = courseId
+
+        viewModelScope.launch {
+            try {
+                val cId = courseId.takeUnless {
+                    it == null
+                } ?: throw Error("Course ID must not be null")
+
+                val course = WebadvisorApi.getCourseByID(cId)
+
+                notificationRows.value = listOf(
+                    NotificationRow("available", course.available.toString()),
+                    NotificationRow("courseCode", course.courseCode),
+                    NotificationRow("courseName", course.courseName),
+                    NotificationRow("examTime", course.examTime),
+                    NotificationRow("labTime", course.labTime),
+                    NotificationRow("lectureTime", course.lectureTime),
+                    NotificationRow("professor", course.professor),
+                    NotificationRow("seminar", course.seminar),
+                )
+
+                _title.value = cId
+            } catch (err: Throwable) {
+                println("error getting course $courseId - $err")
+                delegate?.showError(err.message ?: "Could not get course $courseId")
+            }
+        }
     }
 
     fun saveNotifications(

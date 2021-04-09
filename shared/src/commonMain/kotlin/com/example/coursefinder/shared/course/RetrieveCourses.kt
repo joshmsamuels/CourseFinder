@@ -1,6 +1,6 @@
 package com.example.coursefinder.shared.course
 
-import com.example.coursefinder.shared.model.Course
+import com.example.coursefinder.shared.model.WebadvisorCourse
 import com.example.coursefinder.shared.networking.WebadvisorApi
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
@@ -20,7 +20,7 @@ class RetrieveCoursesViewModel(
     private val delegate: SearchCourseDelegate?,
     var retrievalType: RetrievalType,
 ): ViewModel() {
-    private val _courses = MutableLiveData<List<Course>>(listOf())
+    private val _courses = MutableLiveData<List<WebadvisorCourse>>(listOf())
     val courses = _courses.readOnly()
 
     init {
@@ -31,10 +31,11 @@ class RetrieveCoursesViewModel(
         viewModelScope.launch {
             try {
                 when (retrieveCourses) {
-                    is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getAllCourses()
+                    is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getDiscoveryCourses()
                     is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email)
                 }
             } catch (err: Throwable) {
+                println("Error getting courses $err")
                 TODO("handle error when getting courses")
             }
         }
