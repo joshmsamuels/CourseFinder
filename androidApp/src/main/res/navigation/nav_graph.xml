@@ -8,6 +8,10 @@
         android:id="@+id/go_to_main_fragment"
         app:destination="@id/signIn"
         />
+    <action
+        android:id="@+id/go_to_select_search_fragment"
+        app:destination="@id/selectSearchScreen"
+        />
 
 
     <fragment
@@ -17,6 +21,7 @@
         <action
             android:id="@+id/action_main_to_sign_in"
             app:destination="@id/signIn"
+
             />
 
         <action

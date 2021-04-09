@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     // Fragments the show the navigation drawer instead of a back button
-    private val topLevelFragments = setOf(R.id.selectSearchScreen)
+    private val topLevelFragments = setOf(R.id.selectSearchScreen, R.id.searchViewScreen)
 
     override fun onResume() {
         super.onResume()
@@ -49,10 +49,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_home-> {
+                    navController.navigate(MainFragmentDirections.goToSelectSearchFragment())
                     true
                 }
                 R.id.menu_manage_notifications->{
-                    navController.navigate(SelectSearchFragmentDirections.actionSelectSearchToSearchView("userCourses"))
+
 //
                     true
                 }

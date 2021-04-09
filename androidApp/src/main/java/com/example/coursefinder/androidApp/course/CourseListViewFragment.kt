@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
+import com.example.coursefinder.androidApp.MainFragmentDirections
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.shared.course.RetrievalType
 import com.example.coursefinder.shared.course.SearchCourseDelegate
