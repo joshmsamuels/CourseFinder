@@ -1,3 +1,3 @@
 package com.example.coursefinder.shared.model
 
-data class NotificationRow(var title: String, var subtitle: String, var value: Boolean = false)
+data class NotificationRow(var notificationName: String, var courseRowDetail: String, var checked: Boolean = false)

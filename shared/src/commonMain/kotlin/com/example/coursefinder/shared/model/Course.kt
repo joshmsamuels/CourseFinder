@@ -8,7 +8,6 @@ data class Course(
     val capacity: Int = 0,
     val courseCode: String = "",
     val courseName: String = "",
-    val description: String = "",
     val examTime: String = "",
     val labTime: String = "",
     val lectureTime: String = "",
