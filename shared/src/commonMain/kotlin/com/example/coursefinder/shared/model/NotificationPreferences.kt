@@ -7,20 +7,18 @@ import kotlinx.serialization.Serializable
 data class NotificationPreferences(
     @SerialName("Available")
     val available: Boolean = false,
-    @SerialName("Capacity")
-    val capacity: Boolean = false,
-    @SerialName("CourseCode")
-    val courseCode: Boolean = false,
-    @SerialName("CourseName")
-    val courseName: Boolean = false,
-    @SerialName("ExamTime")
+    @SerialName("Exam")
     val examTime: Boolean = false,
-    @SerialName("LabTime")
+    @SerialName("Lab")
     val labTime: Boolean = false,
-    @SerialName("LectureTime")
+    @SerialName("Lecture")
     val lectureTime: Boolean = false,
-    @SerialName("Professor")
+    @SerialName("Faculty")
     val professor: Boolean = false,
+    @SerialName("Seminar")
+    val seminar: Boolean = false,
+    @SerialName("Status")
+    val status: Boolean = false,
 )
 
 class NotificationPreferencesFactory {
@@ -34,13 +32,12 @@ class NotificationPreferencesFactory {
         {
             return NotificationPreferences(
                 available = findFieldByNameCaseInsensitive("available", notificationRows),
-                capacity = findFieldByNameCaseInsensitive("capacity", notificationRows),
-                courseCode = findFieldByNameCaseInsensitive("courseCode", notificationRows),
-                courseName = findFieldByNameCaseInsensitive("courseName", notificationRows),
                 examTime = findFieldByNameCaseInsensitive("examTime", notificationRows),
                 labTime = findFieldByNameCaseInsensitive("labTime", notificationRows),
                 lectureTime = findFieldByNameCaseInsensitive("lectureTime", notificationRows),
                 professor = findFieldByNameCaseInsensitive("professor", notificationRows),
+                seminar = findFieldByNameCaseInsensitive("seminar", notificationRows),
+                status = findFieldByNameCaseInsensitive("status", notificationRows),
             )
         }
 

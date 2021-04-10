@@ -24,7 +24,8 @@ data class CourseResponse(
              labTime = this.Lab,
              lectureTime = this.Lecture,
              professor = this.Faculty,
-             seminar = this.Seminar
+             seminar = this.Seminar,
+             status = this.Status
          )
      }
 }
