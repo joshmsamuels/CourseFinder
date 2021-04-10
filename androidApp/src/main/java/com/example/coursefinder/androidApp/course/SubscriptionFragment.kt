@@ -15,15 +15,17 @@ import com.example.coursefinder.shared.course.SubscriptionDelegate
 import com.example.coursefinder.shared.course.SubscriptionViewModel
 
 class SubscriptionFragment: Fragment(), SubscriptionDelegate {
-    private var viewModel = SubscriptionViewModel(this)
     private var binding: SubscriptionFragmentViewBinding? = null
     private val args: SubscriptionFragmentArgs by navArgs()
+
+    private lateinit var viewModel: SubscriptionViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = SubscriptionViewModel(this, args.courseCode)
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.subscription_fragment_view,

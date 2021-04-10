@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
@@ -85,7 +86,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
     override fun onItemClick(position: Int) {
         super.onItemClick(position)
-        showCourseDetails(courseList[position].title)
+        showCourseDetails(viewModel.courses.value[position].courseCode)
     }
 
 
@@ -101,7 +102,9 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     }
 
     override fun showCourseDetails(courseCode: String) {
-        TODO("NOT IMPLEMENTED")
+        findNavController().navigate(
+                CourseListViewFragmentDirections.goToSubscriptionFragment(courseCode)
+        )
     }
 
 }

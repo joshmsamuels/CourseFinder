@@ -17,6 +17,8 @@
         android:id="@+id/go_to_subscribed_course_list"
         app:destination="@id/searchViewScreen"
         />
+    <action android:id="@+id/go_to_subscription_fragment"
+        app:destination="@id/subscriptionScreen"/>
 
 
     <fragment
@@ -90,9 +92,11 @@
             android:name="searchType"
             app:argType="string"
             />
+        <action
+            android:id="@+id/action_search_to_subscription_selection"
+            app:destination="@id/subscriptionScreen"
+            />
 
     </fragment>
-
-
 
 </navigation>
