@@ -51,7 +51,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
 
-            //if user is signed in and wants to view their courses, set viewMgodel to their list of courses
+            //if user is signed in and wants to view their courses, set viewModel to their list of courses
             if(args.searchType == "userCourses"){
                 viewModel = RetrieveCoursesViewModel(this, RetrievalType.Subscriptions("test@email.com"))
             }
