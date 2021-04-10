@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
+import com.example.coursefinder.androidApp.MainFragmentDirections
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.shared.course.RetrievalType
 import com.example.coursefinder.shared.course.SearchCourseDelegate
@@ -24,7 +25,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     private lateinit var editText: EditText
     private val courseList = ArrayList<CourseView>()
     private val args: CourseListViewFragmentArgs by navArgs()
-    private val viewModel = RetrieveCoursesViewModel(this, RetrievalType.AvailableCourses)
+    private var viewModel = RetrieveCoursesViewModel(this, RetrievalType.AvailableCourses)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,10 +51,16 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
 
+            //if user is signed in and wants to view their courses, set viewModel to their list of courses
+            if(args.searchType == "userCourses"){
+                viewModel = RetrieveCoursesViewModel(this, RetrievalType.Subscriptions("test@email.com"))
+            }
             for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
                     courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
                 } else if (args.searchType == "courseName") {
+                    courseList += CourseView(viewModel.courses.value[i].courseName, "description $i")
+                } else {
                     courseList += CourseView(viewModel.courses.value[i].courseName, "description $i")
                 }
             }

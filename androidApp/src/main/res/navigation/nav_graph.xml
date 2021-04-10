@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
     <action
         android:id="@+id/go_to_main_fragment"
         app:destination="@id/signIn"
+        />
+    <action
+        android:id="@+id/go_to_select_search_fragment"
+        app:destination="@id/selectSearchScreen"
+        />
+    <action
+        android:id="@+id/go_to_subscribed_course_list"
+        app:destination="@id/searchViewScreen"
         />
 
 
@@ -17,12 +26,22 @@
         <action
             android:id="@+id/action_main_to_sign_in"
             app:destination="@id/signIn"
+
             />
 
         <action
             android:id="@+id/action_main_to_select_search"
             app:destination="@id/selectSearchScreen"
             />
+
+        <action
+            android:id="@+id/action_main_to_course_list_view"
+            app:destination="@id/searchViewScreen">
+            <argument
+                android:name="searchType"
+                android:defaultValue="userCourses"
+                app:argType="string" />
+           </action>
 
     </fragment>
 
@@ -73,6 +92,7 @@
             />
 
     </fragment>
+
 
 
 </navigation>

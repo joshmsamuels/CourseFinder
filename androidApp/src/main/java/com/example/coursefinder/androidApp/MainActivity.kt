@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.coursefinder.androidApp.course.SelectSearchFragmentDirections
 import com.example.coursefinder.androidApp.databinding.ActivityMainBinding
 import com.firebase.ui.auth.AuthUI
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     // Fragments the show the navigation drawer instead of a back button
-    private val topLevelFragments = setOf(R.id.selectSearchScreen)
+    private val topLevelFragments = setOf(R.id.selectSearchScreen, R.id.searchViewScreen)
 
     override fun onResume() {
         super.onResume()
@@ -47,7 +48,16 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(MainFragmentDirections.goToMainFragment())
                     true
                 }
-                else -> {
+                R.id.menu_home-> {
+                    navController.navigate(MainFragmentDirections.goToSelectSearchFragment())
+                    true
+                }
+                R.id.menu_manage_notifications->{
+                    navController.navigate(MainFragmentDirections.goToSubscribedCourseList("userCourses"))
+//
+                    true
+                }
+                else->{
                     false
                 }
             }
