@@ -18,9 +18,9 @@
         app:destination="@id/searchViewScreen"
         />
     <action android:id="@+id/go_to_subscription_fragment"
-        app:destination="@id/subscriptionScreen"/>
+        app:destination="@id/subscriptionScreen">
         <argument
-            android:name="email"
+            android:name="courseCode"
             app:argType="string" />
     </action>
 
