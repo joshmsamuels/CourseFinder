@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="toolbarColor">#78B1F3</color>
+    <color name="text_color">#262626</color>
+    <color name="text_color_gray">#808080</color>
+
+    <color name="button_background_color">#DCDCDC</color>
 </resources>
