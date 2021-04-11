@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     // Fragments the show the navigation drawer instead of a back button
     private val topLevelFragments = setOf(R.id.selectSearchScreen, R.id.searchViewScreen)
 
-    override fun onResume() {
-        super.onResume()
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
