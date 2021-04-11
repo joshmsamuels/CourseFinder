@@ -26,7 +26,6 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
         savedInstanceState: Bundle?
     ): View {
         viewModel = SubscriptionViewModel(this, args.courseCode)
-
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.subscription_fragment_view,
