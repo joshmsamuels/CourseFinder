@@ -31,13 +31,13 @@ class NotificationPreferencesFactory {
         ): NotificationPreferences
         {
             return NotificationPreferences(
-                available = findFieldByNameCaseInsensitive("available", notificationRows),
-                examTime = findFieldByNameCaseInsensitive("examTime", notificationRows),
-                labTime = findFieldByNameCaseInsensitive("labTime", notificationRows),
-                lectureTime = findFieldByNameCaseInsensitive("lectureTime", notificationRows),
-                professor = findFieldByNameCaseInsensitive("professor", notificationRows),
-                seminar = findFieldByNameCaseInsensitive("seminar", notificationRows),
-                status = findFieldByNameCaseInsensitive("status", notificationRows),
+                available = findFieldByNameCaseInsensitive("Available Spots", notificationRows),
+                examTime = findFieldByNameCaseInsensitive("Exam Time", notificationRows),
+                labTime = findFieldByNameCaseInsensitive("Lab Time", notificationRows),
+                lectureTime = findFieldByNameCaseInsensitive("Lecture Time", notificationRows),
+                professor = findFieldByNameCaseInsensitive("Professor", notificationRows),
+                seminar = findFieldByNameCaseInsensitive("Seminar", notificationRows),
+                status = findFieldByNameCaseInsensitive("Status", notificationRows),
             )
         }
 
