@@ -49,16 +49,6 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
         this.secondaryButton.text = model.searchByCourseNameButtonText
         this.secondaryButton.setOnClickListener { model.searchByCourseNameButtonAction() }
 
-//        // TODO - remove from here down when the subscription fragment is wired up
-//        val btn = Button(context)
-//        btn.text = "TEST - navigate to\nsubscription fragment"
-//        btn.setOnClickListener {
-//            findNavController().navigate(
-//                SelectSearchFragmentDirections.actionSelectSearchToSubscriptionSelection("TEST_COURSE_CODE")
-//            )
-//        }
-//        this.root.addView(btn)
-
     }
 
 }

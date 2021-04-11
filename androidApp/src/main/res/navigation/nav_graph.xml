@@ -19,6 +19,11 @@
         />
     <action android:id="@+id/go_to_subscription_fragment"
         app:destination="@id/subscriptionScreen"/>
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </action>
+
 
 
     <fragment
@@ -99,6 +104,10 @@
             app:destination="@id/subscriptionScreen"
             />
 
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 
 </navigation>
