@@ -81,6 +81,11 @@
             android:name="courseCode"
             app:argType="string"
             />
+        <argument
+            android:name="email"
+            app:argType="string"
+            />
+
 
     </fragment>
 
