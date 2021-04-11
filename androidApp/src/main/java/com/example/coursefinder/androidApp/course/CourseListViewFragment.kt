@@ -25,7 +25,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     private lateinit var editText: EditText
     private val courseList = ArrayList<CourseView>()
     private val args: CourseListViewFragmentArgs by navArgs()
-    private var viewModel = RetrieveCoursesViewModel(this, RetrievalType.AvailableCourses)
+    private lateinit var viewModel: RetrieveCoursesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +35,13 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.course_list_view_fragment, container, false)
             editText = view.findViewById(R.id.editText)
+
+        //if user is signed in and wants to view their courses, set viewModel to their list of courses
+        viewModel = if (args.searchType == "userCourses") {
+            RetrieveCoursesViewModel(this, RetrievalType.Subscriptions(args.email))
+        } else {
+            RetrieveCoursesViewModel(this, RetrievalType.AvailableCourses)
+        }
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -51,17 +58,13 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
 
-            //if user is signed in and wants to view their courses, set viewModel to their list of courses
-            if(args.searchType == "userCourses"){
-                viewModel = RetrieveCoursesViewModel(this, RetrievalType.Subscriptions("test@email.com"))
-            }
             for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
                     courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
                 } else if (args.searchType == "courseName") {
                     courseList += CourseView(viewModel.courses.value[i].courseName, "description $i")
                 } else {
-                    courseList += CourseView(viewModel.courses.value[i].courseName, "description $i")
+                    courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
                 }
             }
 

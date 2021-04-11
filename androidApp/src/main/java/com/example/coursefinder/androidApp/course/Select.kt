@@ -54,7 +54,7 @@ class SelectSearchFragment: Fragment(R.layout.select_search_type), SelectDelegat
         btn.text = "TEST - navigate to\nsubscription fragment"
         btn.setOnClickListener {
             findNavController().navigate(
-                SelectSearchFragmentDirections.actionSelectSearchToSubscriptionSelection("TEST_COURSE_CODE")
+                SelectSearchFragmentDirections.actionSelectSearchToSubscriptionSelection("CIS*1000")
             )
         }
         this.root.addView(btn)
