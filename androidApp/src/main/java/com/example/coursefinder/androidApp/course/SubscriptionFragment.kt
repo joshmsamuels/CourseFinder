@@ -93,7 +93,6 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
     }
 
     override fun navigateHome() {
-        TODO("Not yet implemented")
     }
 
     override fun showError(msg: String) {
