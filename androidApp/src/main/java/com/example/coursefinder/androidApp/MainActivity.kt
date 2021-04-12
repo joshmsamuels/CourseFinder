@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         setSupportActionBar(binding.toolbar.root)
+        supportActionBar?.title = "Course Finder"
         setupActionBarWithNavController(navController)
         binding.toolbar.root.setupWithNavController(navController, appBarConfiguration)
 
