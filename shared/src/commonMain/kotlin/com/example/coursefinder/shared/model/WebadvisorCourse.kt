@@ -15,7 +15,7 @@ data class WebadvisorCourse(
     var seminar: String = "",
     var status: String = ""
 ) {
-    // TODO: Move to constructor?
+    // TODO: Move to constructor or notification row class?
     init {
         this.courseCode = naIfBlank(this.courseCode)
         this.courseName = naIfBlank(this.courseName.replace("&amp;", "&"))
