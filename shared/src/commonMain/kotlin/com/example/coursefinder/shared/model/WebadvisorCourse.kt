@@ -14,4 +14,10 @@ data class WebadvisorCourse(
     val professor: String = "",
     val seminar: String = "",
     val status: String = ""
-)
+) {
+//    fun formatForPrinting(): WebadvisorCourse {
+//        this.
+//
+//        return this
+//    }
+}

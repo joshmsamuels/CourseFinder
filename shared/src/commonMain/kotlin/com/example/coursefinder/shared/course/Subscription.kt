@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 interface SubscriptionDelegate {
     fun navigateHome()
-    fun showError(msg: String)
+    fun showToast(msg: String)
 }
 
 class SubscriptionViewModel(
@@ -53,6 +53,10 @@ class SubscriptionViewModel(
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
+                if (notificationRows.value.none { it.checked }) {
+                    throw Error("At least one notification must be selected from the list to save")
+                }
+
                 val course = WebadvisorApi.getCourseByID(cId)
 
                 notificationRows.value = notificationRows.value.map {
@@ -84,9 +88,11 @@ class SubscriptionViewModel(
                 }
 
                 _title.value = cId
+
+                delegate?.showToast("Saved notifications for $courseId")
             } catch (err: Throwable) {
                 println("error getting course $courseId - $err")
-                delegate?.showError(err.message ?: "Could not get course $courseId")
+                delegate?.showToast(err.message ?: "Could not get course $courseId")
             }
         }
     }
@@ -115,7 +121,7 @@ class SubscriptionViewModel(
                 delegate?.navigateHome()
             } catch (err: Throwable) {
                 println("error saving notification - $err")
-                delegate?.showError(err.message ?: "Could not save notifications")
+                delegate?.showToast(err.message ?: "Could not save notifications")
             }
         }
     }

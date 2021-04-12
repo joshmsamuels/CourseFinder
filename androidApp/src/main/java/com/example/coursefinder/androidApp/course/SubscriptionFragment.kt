@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.androidApp.databinding.SubscriptionFragmentViewBinding
@@ -93,9 +94,10 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
     }
 
     override fun navigateHome() {
+        findNavController().navigate(SubscriptionFragmentDirections.goToSelectSearchFragment())
     }
 
-    override fun showError(msg: String) {
+    override fun showToast(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 }
