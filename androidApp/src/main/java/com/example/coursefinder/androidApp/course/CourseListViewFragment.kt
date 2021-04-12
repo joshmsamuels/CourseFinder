@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursefinder.androidApp.model.CourseView
 import androidx.navigation.fragment.navArgs
-import com.example.coursefinder.androidApp.MainFragmentDirections
 import com.example.coursefinder.androidApp.R
 import com.example.coursefinder.shared.course.RetrievalType
 import com.example.coursefinder.shared.course.SearchCourseDelegate
 import com.example.coursefinder.shared.course.RetrieveCoursesViewModel
+import com.example.coursefinder.shared.model.NotificationRow
 
 
 class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewAdapter.OnItemClickListener {
@@ -89,7 +89,8 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
     override fun onItemClick(position: Int) {
         super.onItemClick(position)
-        showCourseDetails(viewModel.courses.value[position].courseCode)
+//        showCourseDetails(viewModel.courses.value[position].courseCode)
+        viewModel.rowAction(position)
     }
 
 
@@ -104,9 +105,12 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
     }
 
-    override fun showCourseDetails(courseCode: String) {
+    override fun showCourseDetails(courseCode: String, notificationRows: List<NotificationRow>) {
         findNavController().navigate(
-                CourseListViewFragmentDirections.goToSubscriptionFragment(courseCode)
+                CourseListViewFragmentDirections.goToSubscriptionFragment(
+                    courseCode = courseCode,
+                    notificationRows = notificationRows.toTypedArray()
+                )
         )
     }
 

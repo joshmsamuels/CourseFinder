@@ -27,13 +27,13 @@ data class GetNotificationsByEmailResponse(
         val course = WebadvisorApi.getCourseByID(CourseId)
 
         return listOf(
-            NotificationRow("available", course.available.toString(), preferences.available),
-            NotificationRow("examTime", course.examTime, preferences.examTime),
-            NotificationRow("labTime", course.labTime, preferences.labTime),
-            NotificationRow("lectureTime", course.lectureTime, preferences.lectureTime),
-            NotificationRow("professor", course.professor, preferences.professor),
-            NotificationRow("seminar", course.seminar, preferences.seminar),
-            NotificationRow("status", course.status, preferences.status),
+            NotificationRow("Available Spots", course.available.toString(), preferences.available),
+            NotificationRow("Exam Time", course.examTime, preferences.examTime),
+            NotificationRow("Lab Time", course.labTime, preferences.labTime),
+            NotificationRow("Lecture Time", course.lectureTime, preferences.lectureTime),
+            NotificationRow("Professor", course.professor, preferences.professor),
+            NotificationRow("Seminar", course.seminar, preferences.seminar),
+            NotificationRow("Status", course.status, preferences.status),
         )
     }
 }

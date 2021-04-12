@@ -13,6 +13,7 @@ import com.example.coursefinder.androidApp.databinding.SubscriptionFragmentViewB
 import com.example.coursefinder.androidApp.databinding.SubscriptionViewRowBinding
 import com.example.coursefinder.shared.course.SubscriptionDelegate
 import com.example.coursefinder.shared.course.SubscriptionViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class SubscriptionFragment: Fragment(), SubscriptionDelegate {
     private var binding: SubscriptionFragmentViewBinding? = null
@@ -25,7 +26,15 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = SubscriptionViewModel(this, args.courseCode)
+        viewModel = SubscriptionViewModel(
+            delegate = this,
+            courseId = args.courseCode,
+            email = FirebaseAuth.getInstance().currentUser?.email ?: ""
+        )
+         if (args.notificationRows.isNotEmpty()) {
+             viewModel.notificationRows.value = args.notificationRows.toList()
+         }
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.subscription_fragment_view,
