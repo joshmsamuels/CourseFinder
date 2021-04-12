@@ -16,7 +16,15 @@ interface SubscriptionDelegate {
 class SubscriptionViewModel(
     private val delegate: SubscriptionDelegate?,
     var courseId: String? = null,
-    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(listOf()),
+    val notificationRows: MutableLiveData<List<NotificationRow>> = MutableLiveData(listOf(
+        NotificationRow("Available Spots", "Loading..."),
+        NotificationRow("Exam Time", "Loading..."),
+        NotificationRow("Lab Time", "Loading..."),
+        NotificationRow("Lecture Time", "Loading..."),
+        NotificationRow("Professor", "Loading..."),
+        NotificationRow("Seminar", "Loading..."),
+        NotificationRow("Status", "Loading..."),
+    )),
     email: String = ""
 ): ViewModel() {
     private val _title = MutableLiveData("TITLE")
@@ -47,15 +55,33 @@ class SubscriptionViewModel(
 
                 val course = WebadvisorApi.getCourseByID(cId)
 
-                notificationRows.value = listOf(
-                    NotificationRow("Available Spots", course.available.toString()),
-                    NotificationRow("Exam Time", course.examTime),
-                    NotificationRow("Lab Time", course.labTime),
-                    NotificationRow("Lecture Time", course.lectureTime),
-                    NotificationRow("Professor", course.professor),
-                    NotificationRow("Seminar", course.seminar),
-                    NotificationRow("Status", course.status),
-                )
+                notificationRows.value = notificationRows.value.map {
+                    when(it.notificationName) {
+                        "Available Spots" -> {
+                            it.courseRowDetail = course.available.toString()
+                        }
+                        "Exam Time" -> {
+                            it.courseRowDetail = course.examTime
+                        }
+                        "Lab Time" -> {
+                            it.courseRowDetail = course.labTime
+                        }
+                        "Lecture Time" -> {
+                            it.courseRowDetail = course.lectureTime
+                        }
+                        "Professor" -> {
+                            it.courseRowDetail = course.professor
+                        }
+                        "Seminar" -> {
+                            it.courseRowDetail = course.seminar
+                        }
+                        "Status" -> {
+                            it.courseRowDetail = course.status
+                        }
+                    }
+
+                    it
+                }
 
                 _title.value = cId
             } catch (err: Throwable) {

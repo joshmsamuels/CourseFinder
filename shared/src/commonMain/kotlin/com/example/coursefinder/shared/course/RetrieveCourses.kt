@@ -1,5 +1,6 @@
 package com.example.coursefinder.shared.course
 
+import com.example.coursefinder.shared.model.NotificationRow
 import com.example.coursefinder.shared.model.WebadvisorCourse
 import com.example.coursefinder.shared.networking.WebadvisorApi
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
@@ -8,7 +9,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 interface SearchCourseDelegate {
-    fun showCourseDetails(courseCode: String)
+    fun showCourseDetails(courseCode: String, notificationRows: List<NotificationRow>)
 }
 
 sealed class RetrievalType {
@@ -23,6 +24,8 @@ class RetrieveCoursesViewModel(
     private val _courses = MutableLiveData<List<WebadvisorCourse>>(listOf())
     val courses = _courses.readOnly()
 
+    var selectedNotificationRowsByCourseCode = mutableMapOf<String, List<NotificationRow>>()
+
     init {
         refresh()
     }
@@ -34,6 +37,8 @@ class RetrieveCoursesViewModel(
                     is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getDiscoveryCourses()
                     // TODO: Save preferences for the next page?
                     is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email).map {
+                        selectedNotificationRowsByCourseCode[it.toWebadvisorCourse().courseCode] = it.toNotificationRows()
+
                         it.toWebadvisorCourse()
                     }
                 }
@@ -45,6 +50,9 @@ class RetrieveCoursesViewModel(
     }
 
     fun rowAction(index: Int) {
-        delegate?.showCourseDetails(_courses.value[index].courseCode)
+        delegate?.showCourseDetails(
+            _courses.value[index].courseCode,
+            selectedNotificationRowsByCourseCode[_courses.value[index].courseCode] ?: listOf()
+        )
     }
 }

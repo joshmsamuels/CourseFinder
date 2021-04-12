@@ -5,6 +5,7 @@ apply(plugin = "kotlinx-serialization")
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("kotlin-android-extensions")
 }
 
 kotlin {
