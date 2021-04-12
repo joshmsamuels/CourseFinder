@@ -48,13 +48,13 @@ class SubscriptionViewModel(
                 val course = WebadvisorApi.getCourseByID(cId)
 
                 notificationRows.value = listOf(
-                    NotificationRow("available", course.available.toString()),
-                    NotificationRow("examTime", course.examTime),
-                    NotificationRow("labTime", course.labTime),
-                    NotificationRow("lectureTime", course.lectureTime),
-                    NotificationRow("professor", course.professor),
-                    NotificationRow("seminar", course.seminar),
-                    NotificationRow("status", course.status),
+                    NotificationRow("Available Spots", course.available.toString()),
+                    NotificationRow("Exam Time", course.examTime),
+                    NotificationRow("Lab Time", course.labTime),
+                    NotificationRow("Lecture Time", course.lectureTime),
+                    NotificationRow("Professor", course.professor),
+                    NotificationRow("Seminar", course.seminar),
+                    NotificationRow("Status", course.status),
                 )
 
                 _title.value = cId
@@ -67,15 +67,18 @@ class SubscriptionViewModel(
 
     fun saveNotifications(
         courseId: String? = this.courseId,
-        email: String = emailFieldValue.value,
         term: String
     ) {
+
         viewModelScope.launch {
             try {
                 val cId = courseId.takeUnless {
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
+                val email: String = emailFieldValue.value.takeUnless {
+                    it.isEmpty()
+                } ?:throw Error("Please enter an email")
                 WebadvisorApi.saveNotificationPreferences(
                     courseId = cId,
                     email = email,
