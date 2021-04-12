@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +39,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         val view = inflater.inflate(R.layout.course_list_view_fragment, container, false)
             editText = view.findViewById(R.id.editText)
 
-        //if user is signed in and wants to view their courses, set viewModel to their list of courses
+        // if user is signed in and wants to view their courses, set viewModel to their list of courses
         viewModel = if (args.searchType == "userCourses") {
             RetrieveCoursesViewModel(this, RetrievalType.Subscriptions(args.email))
         } else {

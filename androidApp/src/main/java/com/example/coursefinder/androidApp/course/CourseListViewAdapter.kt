@@ -21,8 +21,10 @@ class CourseListViewAdapter(
     }
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-        holder.itemView.isEnabled = true
+        // Disables clicking on a row while the data is loading
+        // TODO: move this to a property on the viewmodel
         holder.courseTitle.text = courses[position].title
+        holder.itemView.isEnabled = !courses[position].title.contains("Loading")
     }
 
     override fun getItemCount(): Int {

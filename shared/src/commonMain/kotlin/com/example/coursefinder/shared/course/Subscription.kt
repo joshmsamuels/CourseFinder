@@ -20,7 +20,7 @@ class SubscriptionViewModel(
         NotificationRow("Available Spots", "Loading..."),
         NotificationRow("Exam Time", "Loading..."),
         NotificationRow("Lab Time", "Loading..."),
-        NotificationRow("Lecture Time", "Loading..."),
+        NotificationRow("Lecture Time", "Loaing..."),
         NotificationRow("Professor", "Loading..."),
         NotificationRow("Seminar", "Loading..."),
         NotificationRow("Status", "Loading..."),
