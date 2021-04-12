@@ -67,15 +67,18 @@ class SubscriptionViewModel(
 
     fun saveNotifications(
         courseId: String? = this.courseId,
-        email: String = emailFieldValue.value,
         term: String
     ) {
+
         viewModelScope.launch {
             try {
                 val cId = courseId.takeUnless {
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
+                val email: String = emailFieldValue.value.takeUnless {
+                    it.isEmpty()
+                } ?:throw Error("Please enter an email")
                 WebadvisorApi.saveNotificationPreferences(
                     courseId = cId,
                     email = email,
