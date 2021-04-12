@@ -15,9 +15,9 @@ data class WebadvisorCourse(
     val seminar: String = "",
     val status: String = ""
 ) {
-//    fun formatForPrinting(): WebadvisorCourse {
-//        this.
-//
-//        return this
-//    }
+    fun formatForPrinting(): WebadvisorCourse {
+//        this.examTime = this.examTime.substringAfter("EXAM")
+
+        return this
+    }
 }
