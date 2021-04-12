@@ -103,12 +103,12 @@ class SubscriptionViewModel(
                 } ?: throw Error("Course ID must not be null")
 
                 if (notificationRows.value.none { it.checked }) {
-                    throw Error("At least one notification must be selected from the list to save")
+                    throw Error("Please select at least one notification to save")
                 }
 
                 val email: String = emailFieldValue.value.takeUnless {
                     it.isEmpty()
-                } ?: throw Error("Please enter an email")
+                } ?: throw Error("Please enter your email address or login")
 
                 WebadvisorApi.saveNotificationPreferences(
                     courseId = cId,
