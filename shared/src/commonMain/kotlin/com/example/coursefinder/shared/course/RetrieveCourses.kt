@@ -21,7 +21,9 @@ class RetrieveCoursesViewModel(
     private val delegate: SearchCourseDelegate?,
     var retrievalType: RetrievalType,
 ): ViewModel() {
-    private val _courses = MutableLiveData<List<WebadvisorCourse>>(listOf())
+    private val _courses = MutableLiveData<List<WebadvisorCourse>>(listOf(
+        WebadvisorCourse(courseName = "Loading Courses", courseCode = "Loading Courses")
+    ))
     val courses = _courses.readOnly()
 
     var selectedNotificationRowsByCourseCode = mutableMapOf<String, List<NotificationRow>>()

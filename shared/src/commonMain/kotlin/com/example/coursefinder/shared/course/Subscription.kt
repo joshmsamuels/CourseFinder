@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 interface SubscriptionDelegate {
     fun navigateHome()
-    fun showError(msg: String)
+    fun showToast(msg: String)
 }
 
 class SubscriptionViewModel(
@@ -20,7 +20,7 @@ class SubscriptionViewModel(
         NotificationRow("Available Spots", "Loading..."),
         NotificationRow("Exam Time", "Loading..."),
         NotificationRow("Lab Time", "Loading..."),
-        NotificationRow("Lecture Time", "Loading..."),
+        NotificationRow("Lecture Time", "Loaing..."),
         NotificationRow("Professor", "Loading..."),
         NotificationRow("Seminar", "Loading..."),
         NotificationRow("Status", "Loading..."),
@@ -53,7 +53,7 @@ class SubscriptionViewModel(
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
-                val course = WebadvisorApi.getCourseByID(cId)
+                val course = WebadvisorApi.getCourseByID(cId).formatForPrinting()
 
                 notificationRows.value = notificationRows.value.map {
                     when(it.notificationName) {
@@ -86,7 +86,7 @@ class SubscriptionViewModel(
                 _title.value = cId
             } catch (err: Throwable) {
                 println("error getting course $courseId - $err")
-                delegate?.showError(err.message ?: "Could not get course $courseId")
+                delegate?.showToast(err.message ?: "Could not get course $courseId")
             }
         }
     }
@@ -102,9 +102,14 @@ class SubscriptionViewModel(
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
+                if (notificationRows.value.none { it.checked }) {
+                    throw Error("Please select at least one notification to save")
+                }
+
                 val email: String = emailFieldValue.value.takeUnless {
                     it.isEmpty()
-                } ?:throw Error("Please enter an email")
+                } ?: throw Error("Please enter your email address or login")
+
                 WebadvisorApi.saveNotificationPreferences(
                     courseId = cId,
                     email = email,
@@ -112,10 +117,12 @@ class SubscriptionViewModel(
                     term = term
                 )
 
+                delegate?.showToast("Saved notifications for $courseId")
+
                 delegate?.navigateHome()
             } catch (err: Throwable) {
                 println("error saving notification - $err")
-                delegate?.showError(err.message ?: "Could not save notifications")
+                delegate?.showToast(err.message ?: "Could not save notifications")
             }
         }
     }
