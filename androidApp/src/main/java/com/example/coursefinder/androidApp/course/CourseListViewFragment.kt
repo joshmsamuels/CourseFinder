@@ -61,11 +61,11 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
             for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
-                    courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
+                    courseList += CourseView(viewModel.courses.value[i].courseCode)
                 } else if (args.searchType == "courseName") {
-                    courseList += CourseView(viewModel.courses.value[i].courseName, "description $i")
+                    courseList += CourseView(viewModel.courses.value[i].courseName)
                 } else {
-                    courseList += CourseView(viewModel.courses.value[i].courseCode, "description $i")
+                    courseList += CourseView(viewModel.courses.value[i].courseCode)
                 }
             }
 

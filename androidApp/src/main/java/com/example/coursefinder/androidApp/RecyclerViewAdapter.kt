@@ -14,26 +14,23 @@ class RecyclerViewAdapter(var context: Context, private var courses:List<CourseV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
         val title = itemView.findViewById<TextView>(R.id.course_title)
-        val description = itemView.findViewById<TextView>(R.id.course_description)
 
-        return CourseViewHolder(itemView, title, description, rowListener)
+        return CourseViewHolder(itemView, title, rowListener)
     }
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
 
         holder.itemView.isEnabled = true
         holder.courseTitle.text = courses[position].title
-        holder.courseDescription.text = courses[position].description
     }
 
     override fun getItemCount(): Int {
         return courses.size
     }
 
-    class CourseViewHolder (itemView: View, internal var title:TextView, internal var description:TextView, private var rowListener: OnItemClickListener) : RecyclerView.ViewHolder(itemView),
+    class CourseViewHolder (itemView: View, internal var title:TextView, private var rowListener: OnItemClickListener) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener{
         var courseTitle: TextView = itemView.findViewById(R.id.course_title)
-        var courseDescription:TextView = itemView.findViewById(R.id.course_description)
 
         init{
             itemView.setOnClickListener(this)
