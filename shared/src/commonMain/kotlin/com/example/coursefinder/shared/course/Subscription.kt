@@ -55,16 +55,6 @@ class SubscriptionViewModel(
 
                 val course = WebadvisorApi.getCourseByID(cId)
 
-//                notificationRows.value = listOf(
-//                    NotificationRow("Available Spots", course.available.toString()),
-//                    NotificationRow("Exam Time", course.examTime),
-//                    NotificationRow("Lab Time", course.labTime),
-//                    NotificationRow("Lecture Time", course.lectureTime),
-//                    NotificationRow("Professor", course.professor),
-//                    NotificationRow("Seminar", course.seminar),
-//                    NotificationRow("Status", course.status),
-//                )
-
                 notificationRows.value = notificationRows.value.map {
                     when(it.notificationName) {
                         "Available Spots" -> {

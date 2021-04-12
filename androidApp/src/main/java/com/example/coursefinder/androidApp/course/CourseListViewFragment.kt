@@ -89,7 +89,6 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
     override fun onItemClick(position: Int) {
         super.onItemClick(position)
-//        showCourseDetails(viewModel.courses.value[position].courseCode)
         viewModel.rowAction(position)
     }
 
