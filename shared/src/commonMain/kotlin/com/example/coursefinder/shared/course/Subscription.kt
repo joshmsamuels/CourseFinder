@@ -84,8 +84,6 @@ class SubscriptionViewModel(
                 }
 
                 _title.value = cId
-
-                delegate?.showToast("Saved notifications for $courseId")
             } catch (err: Throwable) {
                 println("error getting course $courseId - $err")
                 delegate?.showToast(err.message ?: "Could not get course $courseId")
@@ -118,6 +116,8 @@ class SubscriptionViewModel(
                     notifications = NotificationPreferencesFactory.makeNotificationPreferencesFromNotificationRow(notificationRows.value),
                     term = term
                 )
+
+                delegate?.showToast("Saved notifications for $courseId")
 
                 delegate?.navigateHome()
             } catch (err: Throwable) {
