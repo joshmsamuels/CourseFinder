@@ -1,8 +1,6 @@
 package com.example.coursefinder.androidApp
 
 import android.content.Context
-import android.view.Gravity
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
@@ -17,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    
+    private val firebaseInstance = FirebaseAuth.getInstance()
 
     // Fragments the show the navigation drawer instead of a back button
     private val topLevelFragments = setOf(R.id.selectSearchScreen)
@@ -28,11 +28,19 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
-        if (email.isBlank()) {
-            binding.navigationView.navView.menu
-                .findItem(R.id.menu_manage_notifications).isVisible = false
+        firebaseInstance.addAuthStateListener {
+            if (it.currentUser?.email?.isBlank() ?: true) {
+                // Hides the manage notification menu option if the user is not logged in
+                binding.navigationView.navView.menu
+                    .findItem(R.id.menu_manage_notifications).isVisible = false
+            } else {
+                // Shows the manage notifications menu when the user is logged in
+                binding.navigationView.navView.menu
+                    .findItem(R.id.menu_manage_notifications).isVisible = true
+            }
         }
+        
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: ""
 
         val appBarConfiguration = AppBarConfiguration(
             topLevelFragments,
@@ -60,13 +68,13 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.menu_home-> {
+                R.id.menu_home -> {
                     navController.navigate(MainFragmentDirections.goToSelectSearchFragment())
 
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.menu_manage_notifications->{
+                R.id.menu_manage_notifications -> {
                     navController.navigate(
                         MainFragmentDirections.goToSubscribedCourseList(
                             email = email,
@@ -78,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 else -> {
-
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     false
                 }

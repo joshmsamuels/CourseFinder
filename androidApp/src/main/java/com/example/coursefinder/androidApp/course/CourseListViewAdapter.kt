@@ -41,14 +41,14 @@ class CourseListViewAdapter(
 
         override fun onClick(v: View?) {
             val position = adapterPosition
-            //check to see if position exists in recyclerview
+            // check to see if position exists in recyclerview
             if(position != RecyclerView.NO_POSITION){
                 rowListener.onItemClick(position)
             }
         }
     }
 
-    fun updateCoursesList(coursesList: ArrayList<CourseView>) {
+    fun updateCoursesList(coursesList: List<CourseView>) {
         courses = coursesList
         notifyDataSetChanged()
     }
