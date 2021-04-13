@@ -24,6 +24,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     private lateinit var recyclerView: RecyclerView
     private lateinit var courseListViewAdapter: CourseListViewAdapter
     private lateinit var editText: EditText
+    private val fullCourseList = mutableListOf<CourseView>()
     private var courseList = mutableListOf<CourseView>()
     private val args: CourseListViewFragmentArgs by navArgs()
     private lateinit var viewModel: RetrieveCoursesViewModel
@@ -45,6 +46,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         }
 
         val textWatcher = object : TextWatcher {
+            //calls filterCourseList after user enters value into search bar
             override fun afterTextChanged(s: Editable?) {
                 filterCourseList(s.toString())
             }
@@ -58,14 +60,19 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
+            fullCourseList.clear()
 
+            //populates courseList depending on course search type
             for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
                     courseList.add(CourseView(viewModel.courses.value[i].courseCode))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseCode))
                 } else if (args.searchType == "courseName") {
                     courseList.add(CourseView(viewModel.courses.value[i].courseName))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseName))
                 } else {
                     courseList.add(CourseView(viewModel.courses.value[i].courseCode))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseCode))
                 }
             }
 
@@ -73,6 +80,7 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
             courseListViewAdapter.updateCoursesList(courseList)
         })
 
+        //set up recyclerview
         recyclerView = view.findViewById(R.id.courseListView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
@@ -102,18 +110,21 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
 
     private fun filterCourseList(text: String) {
-        val filteredList = mutableListOf<CourseView>()
-
-        for( course in courseList){
+//        val filteredList = mutableListOf<CourseView>()
+        courseList.clear()
+        //creates filtered list based on users search
+        for( course in fullCourseList){
             if(course.title.toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(course)
+                courseList.add(course)
             }
         }
 
-        courseList = filteredList
+        //updates view
+//        courseList = filteredList
         courseListViewAdapter.updateCoursesList(courseList)
     }
 
+    //navigates to show course details when course is clicked in recyclerview
     override fun showCourseDetails(courseCode: String, notificationRows: List<NotificationRow>) {
         findNavController().navigate(
                 CourseListViewFragmentDirections.goToSubscriptionFragment(

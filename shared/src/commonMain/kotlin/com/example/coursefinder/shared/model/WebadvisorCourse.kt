@@ -15,11 +15,11 @@ data class WebadvisorCourse(
     var seminar: String = "",
     var status: String = ""
 ) {
-    // TODO: Move to constructor or notification row class?
     init {
         this.courseCode = naIfBlank(this.courseCode)
 
         if (this.courseName.isBlank()) {
+            //sets view to show N/A if course name is blank
             this.courseName = "N/A"
         } else if (this.courseName.contains("Loading")) {
             // Do nothing -- We do not need to massage loading courses

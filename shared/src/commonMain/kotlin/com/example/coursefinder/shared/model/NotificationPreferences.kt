@@ -25,7 +25,6 @@ class NotificationPreferencesFactory {
     companion object {
         // Builds a notification preferences object from the notification rows displayed on the clients
         // Currently the row titles must match the hard-coded strings in this method.
-        // TODO: Is there a more robust solution?
         fun makeNotificationPreferencesFromNotificationRow(
             notificationRows: List<NotificationRow>
         ): NotificationPreferences

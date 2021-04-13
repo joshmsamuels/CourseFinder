@@ -20,14 +20,14 @@ class SubscriptionViewModel(
         NotificationRow("Available Spots", "Loading..."),
         NotificationRow("Exam Time", "Loading..."),
         NotificationRow("Lab Time", "Loading..."),
-        NotificationRow("Lecture Time", "Loaing..."),
+        NotificationRow("Lecture Time", "Loading..."),
         NotificationRow("Professor", "Loading..."),
         NotificationRow("Seminar", "Loading..."),
         NotificationRow("Status", "Loading..."),
     )),
     email: String = ""
 ): ViewModel() {
-    private val _title = MutableLiveData("TITLE")
+    private val _title = MutableLiveData("")
     private val _emailFieldPrompt = MutableLiveData("Email:")
     private val _saveButtonText = MutableLiveData("Save")
     private val _cancelButtonText = MutableLiveData("Cancel")
@@ -47,6 +47,7 @@ class SubscriptionViewModel(
     fun refresh(courseId: String? = this.courseId) {
         this.courseId = courseId
 
+        // asynchronously gets course data by id
         viewModelScope.launch {
             try {
                 val cId = courseId.takeUnless {
@@ -96,16 +97,20 @@ class SubscriptionViewModel(
         term: String
     ) {
 
+        // asynchronously validate data and sends to server
         viewModelScope.launch {
             try {
+                //set course id unless value is null
                 val cId = courseId.takeUnless {
                     it == null
                 } ?: throw Error("Course ID must not be null")
 
+                //prompts user to select notification preferences if nothing is selected
                 if (notificationRows.value.none { it.checked }) {
                     throw Error("Please select at least one notification to save")
                 }
 
+                //sets user email unless value is null
                 val email: String = emailFieldValue.value.takeUnless {
                     it.isEmpty()
                 } ?: throw Error("Please enter your email address or login")

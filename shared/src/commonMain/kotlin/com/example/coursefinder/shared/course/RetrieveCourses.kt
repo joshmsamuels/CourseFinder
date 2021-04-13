@@ -33,20 +33,23 @@ class RetrieveCoursesViewModel(
     }
 
     fun refresh(retrieveCourses: RetrievalType = retrievalType) {
+
+        // asynchronously get courses from server
         viewModelScope.launch {
             try {
                 when (retrieveCourses) {
                     is RetrievalType.AvailableCourses -> _courses.value = WebadvisorApi.getDiscoveryCourses()
-                    // TODO: Save preferences for the next page?
                     is RetrievalType.Subscriptions -> _courses.value = WebadvisorApi.getSavedCourses(retrieveCourses.email).map {
+
+                        // store map of saved notifications by course code
                         selectedNotificationRowsByCourseCode[it.toWebadvisorCourse().courseCode] = it.toNotificationRows()
 
+                        // map server response to webadvisor course
                         it.toWebadvisorCourse()
                     }
                 }
             } catch (err: Throwable) {
                 println("Error getting courses $err")
-                TODO("handle error when getting courses")
             }
         }
     }

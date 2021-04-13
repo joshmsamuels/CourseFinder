@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        //bind and set action bar
         setSupportActionBar(binding.toolbar.root)
         supportActionBar?.title = "Course Finder"
         setupActionBarWithNavController(navController)
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         binding.navigationView.root.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.menu_sign_out -> {
+                    //sign user out when menu item clicked
                     userSignOut(this.applicationContext)
                     navController.navigate(MainFragmentDirections.goToMainFragment())
 
@@ -69,12 +71,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_home -> {
+                    //navigate to home fragment
                     navController.navigate(MainFragmentDirections.goToSelectSearchFragment())
 
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
                 R.id.menu_manage_notifications -> {
+                    //navigate to manage notifications of user
                     navController.navigate(
                         MainFragmentDirections.goToSubscribedCourseList(
                             email = email,

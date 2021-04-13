@@ -13,12 +13,12 @@ import io.ktor.http.*
 import kotlinx.serialization.json.Json
 
 object WebadvisorApi {
-    // TODO: Update URL for real API once it is completed
     private const val baseUrl = "https://course-notify-server-staging.herokuapp.com/api/v1"
     private const val coursesAPI = "$baseUrl/courses/"
     private const val discoveryCoursesAPI = "$baseUrl/courses/discovery/"
     private const val notificationsAPI = "$baseUrl/notifications/"
 
+    // create http client with serializer and content type
     private val httpClient = HttpClient {
         install(JsonFeature) {
             val json = Json { ignoreUnknownKeys = true }
@@ -27,20 +27,24 @@ object WebadvisorApi {
         }
     }
 
+    // gets discovery courses from server
     suspend fun getDiscoveryCourses(): List<WebadvisorCourse> {
         return httpClient.get<List<CourseDiscoveryResponse>>(discoveryCoursesAPI).map {
             it.toWebadvisorCourse()
         }
     }
 
+    // gets course by id from server
     suspend fun getCourseByID(courseId: String): WebadvisorCourse {
         return httpClient.get<CourseResponse>("$coursesAPI?CourseId=$courseId").toWebadvisorCourse()
     }
 
+    // gets saved courses
     suspend fun getSavedCourses(email: String): List<GetNotificationsByEmailResponse> {
         return httpClient.get("${notificationsAPI}$email/")
     }
 
+    // saves notification preferences by email to server
     suspend fun saveNotificationPreferences(
         courseId: String,
         email: String,
@@ -57,6 +61,4 @@ object WebadvisorApi {
             )
         }
     }
-
-    // TODO: close client
 }
