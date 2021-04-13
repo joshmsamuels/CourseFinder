@@ -15,10 +15,24 @@ data class WebadvisorCourse(
     var seminar: String = "",
     var status: String = ""
 ) {
-    // TODO: Move to constructor or notification row class?
     init {
         this.courseCode = naIfBlank(this.courseCode)
-        this.courseName = naIfBlank(this.courseName.replace("&amp;", "&"))
+
+        if (this.courseName.isBlank()) {
+            //sets view to show N/A if course name is blank
+            this.courseName = "N/A"
+        } else if (this.courseName.contains("Loading")) {
+            // Do nothing -- We do not need to massage loading courses
+        } else {
+            val section = this.courseName.substringBefore("(", "")
+                .substringAfterLast('*')
+            // Replaces html encoded ampersands with an ampersand and removes the course code
+            // and adds back the section to distinguish sections of the same course
+            this.courseName = this.courseName
+                .substringAfter(")", "")
+                .replace("&amp;", "&") + ": $section"
+        }
+
         this.examTime = naIfBlank(this.examTime)
         this.labTime = naIfBlank(this.labTime)
         this.lectureTime = naIfBlank(this.lectureTime)

@@ -26,7 +26,7 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         viewModel = SubscriptionViewModel(
             delegate = this,
             courseId = args.courseCode,
@@ -45,7 +45,7 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
 
         val subscriptionFragmentBinding = binding.takeUnless {
             binding == null
-        } ?: TODO("Handle subscription_fragment_view binding is null")
+        } ?: return null
 
         subscriptionFragmentBinding.lifecycleOwner = this
         subscriptionFragmentBinding.viewModel = viewModel
@@ -74,13 +74,11 @@ class SubscriptionFragment: Fragment(), SubscriptionDelegate {
                 rowBinding.subscriptionViewRowSubtitle.text = row.courseRowDetail
                 rowBinding.subscriptionViewRowCheckbox.isChecked = row.checked
 
-                // TODO: move this to a property on the viewmodel
                 if (row.courseRowDetail.contains("Loading")) {
                     rowBinding.subscriptionViewRowCheckbox.isEnabled = false
                 }
 
                 // Updates the view model when the checkbox state changes
-                // TODO: Is there a way to use data for the list of rows?
                 rowBinding.subscriptionViewRowCheckbox.setOnClickListener { row.checked = !row.checked }
 
                 binding?.subscriptionViewContentArea?.addView(rowView)

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.view.forEach
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +24,8 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
     private lateinit var recyclerView: RecyclerView
     private lateinit var courseListViewAdapter: CourseListViewAdapter
     private lateinit var editText: EditText
-    private val courseList = ArrayList<CourseView>()
+    private val fullCourseList = mutableListOf<CourseView>()
+    private var courseList = mutableListOf<CourseView>()
     private val args: CourseListViewFragmentArgs by navArgs()
     private lateinit var viewModel: RetrieveCoursesViewModel
 
@@ -47,8 +46,9 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
         }
 
         val textWatcher = object : TextWatcher {
+            //calls filterCourseList after user enters value into search bar
             override fun afterTextChanged(s: Editable?) {
-                filter(s.toString());
+                filterCourseList(s.toString())
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -60,20 +60,27 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
         viewModel.courses.ld().observe(viewLifecycleOwner, {
             courseList.clear()
+            fullCourseList.clear()
 
+            //populates courseList depending on course search type
             for (i in viewModel.courses.value.indices) {
                 if (args.searchType == "courseCode") {
-                    courseList += CourseView(viewModel.courses.value[i].courseCode)
+                    courseList.add(CourseView(viewModel.courses.value[i].courseCode))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseCode))
                 } else if (args.searchType == "courseName") {
-                    courseList += CourseView(viewModel.courses.value[i].courseName)
+                    courseList.add(CourseView(viewModel.courses.value[i].courseName))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseName))
                 } else {
-                    courseList += CourseView(viewModel.courses.value[i].courseCode)
+                    courseList.add(CourseView(viewModel.courses.value[i].courseCode))
+                    fullCourseList.add(CourseView(viewModel.courses.value[i].courseCode))
                 }
             }
 
+            filterCourseList(editText.text.toString())
             courseListViewAdapter.updateCoursesList(courseList)
         })
 
+        //set up recyclerview
         recyclerView = view.findViewById(R.id.courseListView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
@@ -91,21 +98,33 @@ class CourseListViewFragment : Fragment(), SearchCourseDelegate, CourseListViewA
 
     override fun onItemClick(position: Int) {
         super.onItemClick(position)
-        viewModel.rowAction(position)
+
+//        val index = viewModel.courses.value.indexOf(courseList[position])
+        val index = viewModel.courses.value.indexOfFirst {
+            it.courseCode == courseList[position].title ||
+            it.courseName == courseList[position].title
+        }
+
+        viewModel.rowAction(index)
     }
 
 
-    private fun filter(text: String) {
-        val filteredList = ArrayList<CourseView>()
-        for( course in courseList){
+    private fun filterCourseList(text: String) {
+//        val filteredList = mutableListOf<CourseView>()
+        courseList.clear()
+        //creates filtered list based on users search
+        for( course in fullCourseList){
             if(course.title.toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(course)
+                courseList.add(course)
             }
         }
-        courseListViewAdapter.updateCoursesList(filteredList)
 
+        //updates view
+//        courseList = filteredList
+        courseListViewAdapter.updateCoursesList(courseList)
     }
 
+    //navigates to show course details when course is clicked in recyclerview
     override fun showCourseDetails(courseCode: String, notificationRows: List<NotificationRow>) {
         findNavController().navigate(
                 CourseListViewFragmentDirections.goToSubscriptionFragment(

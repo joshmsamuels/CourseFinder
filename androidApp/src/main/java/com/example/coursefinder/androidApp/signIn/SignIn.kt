@@ -8,17 +8,12 @@ import com.example.coursefinder.shared.signIn.getAuthProviders
 import com.firebase.ui.auth.AuthUI
 
 class SignInActivity : AppCompatActivity()  {
+    // register firebase ui activity
     private val firebaseAuthLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            TODO("Sign In Failed")
-        }
-
+        ActivityResultContracts.StartActivityForResult()) {
         val data = Intent()
+
+        // set successful result and return to main activity
         setResult(Activity.RESULT_OK, data)
         finish()
 
@@ -27,6 +22,7 @@ class SignInActivity : AppCompatActivity()  {
     override fun onResume() {
         super.onResume()
 
+        // launch firebase ui activity with all auth providers
         firebaseAuthLauncher.launch(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
